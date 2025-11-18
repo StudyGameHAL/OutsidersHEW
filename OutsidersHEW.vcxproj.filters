@@ -1,45 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="src">
+      <UniqueIdentifier>{06bc2710-c7c6-4067-a68b-e2a712a19197}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{defc9127-0cf2-4a81-9f7e-2475aecca77b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル">
+    <Filter Include="src\graphics">
+      <UniqueIdentifier>{521b8111-ca43-4720-a564-9aa1a1605299}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\game">
+      <UniqueIdentifier>{42c34b97-3523-4c8e-9687-bf9fb09fd529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{34be3c7f-b619-4c85-918d-255b5d36fd06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
+    <FxCompile Include="shaders\shaderPixel3D.hlsl">
+      <Filter>assets</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\shaderVertex3D.hlsl">
+      <Filter>assets</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\debug_ostream.cpp">
+      <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="DirectX.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\core\Keyboard.cpp">
+      <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="debug_ostream.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\graphics\DirectX.cpp">
+      <Filter>src\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\graphics\Shader.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\main.cpp">
+      <Filter>src\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DirectX.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="src\core\debug_ostream.h">
+      <Filter>src\core</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="src\core\Keyboard.h">
+      <Filter>src\core</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="src\graphics\DirectX.h">
+      <Filter>src\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="debug_ostream.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="src\graphics\Shader.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Game.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\MathStruct.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Collider.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Interfaces.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Rigidbody.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Transform.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Block.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\DynamicEntity.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Entity.h">
+      <Filter>src\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

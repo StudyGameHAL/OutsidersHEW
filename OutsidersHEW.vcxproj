@@ -18,6 +18,32 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\shaderPixel3D.hlsl" />
+    <FxCompile Include="shaders\shaderVertex3D.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\debug_ostream.cpp" />
+    <ClCompile Include="src\core\Keyboard.cpp" />
+    <ClCompile Include="src\game\main.cpp" />
+    <ClCompile Include="src\graphics\DirectX.cpp" />
+    <ClCompile Include="src\graphics\Shader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\core\Collider.h" />
+    <ClInclude Include="src\core\debug_ostream.h" />
+    <ClInclude Include="src\core\Interfaces.h" />
+    <ClInclude Include="src\core\Keyboard.h" />
+    <ClInclude Include="src\core\Rigidbody.h" />
+    <ClInclude Include="src\core\Transform.h" />
+    <ClInclude Include="src\game\Block.h" />
+    <ClInclude Include="src\game\DynamicEntity.h" />
+    <ClInclude Include="src\game\Entity.h" />
+    <ClInclude Include="src\game\Game.h" />
+    <ClInclude Include="src\graphics\DirectX.h" />
+    <ClInclude Include="src\graphics\MathStruct.h" />
+    <ClInclude Include="src\graphics\Shader.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -128,35 +154,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="debug_ostream.cpp" />
-    <ClCompile Include="DirectX.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Shader.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="debug_ostream.h" />
-    <ClInclude Include="DirectX.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="MathStruct.h" />
-    <ClInclude Include="Shader.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="shaderPixel3D.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).cso</ObjectFileOutput>
-    </FxCompile>
-    <FxCompile Include="shaderVertex3D.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).cso</ObjectFileOutput>
-    </FxCompile>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
