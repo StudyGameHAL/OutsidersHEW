@@ -3,10 +3,10 @@
 #define NOMINMAX
 #include <Windows.h>
 #include <mmsystem.h>
-#include "debug_ostream.h"
-#include "DirectX.h"
-#include "Shader.h"
-#include "Keyboard.h"
+#include "core/debug_ostream.h"
+#include "render/DirectX.h"
+#include "render/Shader.h"
+#include "core/Keyboard.h"
 #include "Game.h"
 
 #pragma comment(lib, "winmm.lib")

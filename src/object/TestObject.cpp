@@ -1,6 +1,6 @@
 #include "TestObject.h"
-#include "model.h"
-#include "Shader.h"
+#include "render/model.h"
+#include "render/Shader.h"
 
 #include <DirectXMath.h>
 using namespace DirectX;

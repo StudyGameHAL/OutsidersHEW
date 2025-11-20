@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "Game.h"
-#include "SceneGame.h"
+#include "scene/SceneGame.h"
 
 Game* Game::m_Instance{ nullptr };
 

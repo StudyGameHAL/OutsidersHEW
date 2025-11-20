@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "object/GameObject.h"
 #include <list>
 
 class Scene

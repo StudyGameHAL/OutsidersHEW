@@ -3,8 +3,7 @@
 //#include "InputManager.h"
 //#include "RenderManager.h"
 //#include "SoundManager.h"
-#include "Scene.h"
-
+#include "scene/Scene.h"
 
 class Game
 {
