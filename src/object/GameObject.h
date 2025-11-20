@@ -14,5 +14,7 @@ public:
 	const Transform& GetTransform() const { return m_Transform; }
 	Transform& GetTransform() { return m_Transform; }
 protected:
+	class Scene* GetScene();
+	class Camera* GetSceneCamera();
 	Transform m_Transform;
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include <cassert>
 #include <cmath>
+#include <DirectXMath.h>
 
 class Math
 {
@@ -196,6 +197,16 @@ public:
 	{
 		return from * (1.0f - t) + to * t;
 	}
+
+	DirectX::XMFLOAT3 ToXMFLOAT3() const
+	{
+		return DirectX::XMFLOAT3{x, y, z};
+	}
+
+	DirectX::XMVECTOR ToXMVECTOR(float w = 0.0f) const
+	{
+		return DirectX::XMVectorSet( x, y, z, w );
+	}
 };
 
 // ==== Vector 4 ====
@@ -238,5 +249,15 @@ public:
 	Vector4 operator*(float t) const
 	{
 		return Vector4{ x * t, y * t, z * t, w * t };
+	}
+
+	DirectX::XMFLOAT4 ToXMFLOAT4() const
+	{
+		return DirectX::XMFLOAT4{ x, y, z, w };
+	}
+
+	DirectX::XMVECTOR ToXMVECTOR() const
+	{
+		return DirectX::XMVectorSet( x, y, z, w );
 	}
 };

@@ -19,7 +19,7 @@ public:
 	T* SetNextScene()
 	{
 		m_SceneNext = new T();
-		m_SceneNext->Load();
+		m_SceneNext->Initialize();
 		return dynamic_cast<T *>(m_SceneNext);
 	}
 	Scene* GetScene() { return m_Scene; }

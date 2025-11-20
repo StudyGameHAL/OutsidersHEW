@@ -142,6 +142,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\debug_ostream.cpp" />
+    <ClCompile Include="src\object\Camera.cpp" />
+    <ClCompile Include="src\object\GameObject.cpp" />
     <ClCompile Include="src\render\DirectX.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\core\Keyboard.cpp" />

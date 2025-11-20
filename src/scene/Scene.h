@@ -6,28 +6,37 @@ class Scene
 {
 public:
 	Scene() = default;
-	virtual ~Scene() = default;
-	virtual void Load() {};
+	virtual ~Scene()
+	{
+		Finalize();
+	}
+	virtual void Initialize()
+	{
+		Finalize();
+	}
 	virtual void Update()
 	{
-		for (const auto& gameObject : m_GameObject)
+		for (const auto& gameObject : m_GameObjects)
 		{
 			gameObject->Update();
 		}
 	}
 	virtual void Draw()
 	{
-		for (const auto& gameObject : m_GameObject)
+		for (const auto& gameObject : m_GameObjects)
 		{
 			gameObject->Draw();
 		}
 	}
 	virtual void Finalize()
 	{
-		for (const auto& gameObject : m_GameObject)
+		for (auto& gameObject : m_GameObjects)
 		{
-			gameObject->Draw();
+			gameObject->Finalize();
+			delete gameObject;
+			gameObject = nullptr;
 		}
+		m_GameObjects.clear();
 	}
 	class Camera* GetCurrentCamera() { return m_CurrentCamera; }
 
@@ -35,24 +44,24 @@ public:
 	T* AddGameObject()
 	{
 		T* gameObject = new T();
+		m_GameObjects.push_back(gameObject);
 		gameObject->Initialize();
-		m_GameObject.push_back(gameObject);
 		return gameObject;
 	}
 
 	template <class T>
 	T* GetGameObject()
 	{
-		for (auto& gameObject : m_GameObject)
+		for (auto& gameObject : m_GameObjects)
 		{
 			if (typeid(*gameObject) == typeid(T))
 			{
-				return dynamic_cast<T*>(gameObject.get());
+				return dynamic_cast<T*>(gameObject);
 			}
 		}
 		return nullptr;
 	}
 protected:
-	std::list<GameObject *> m_GameObject;
+	std::list<GameObject *> m_GameObjects;
 	class Camera* m_CurrentCamera{};
 };
