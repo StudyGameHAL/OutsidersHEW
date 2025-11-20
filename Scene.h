@@ -35,6 +35,7 @@ public:
 	T* AddGameObject()
 	{
 		T* gameObject = new T();
+		gameObject->Initialize();
 		m_GameObject.push_back(gameObject);
 		return gameObject;
 	}

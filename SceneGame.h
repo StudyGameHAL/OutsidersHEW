@@ -1,10 +1,15 @@
 #pragma once
 #include "Scene.h"
+#include "TestObject.h"
 
 class SceneGame : public Scene
 {
 public:
-	// TODO:
+	// TODO
+	void Load() override
+	{
+		AddGameObject<TestObject>();
+	}
 private:
 	// TODO:
 };
