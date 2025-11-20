@@ -1,12 +1,32 @@
 #pragma once
 
-class Game {
-  public:
-		Game() = default;
-		void update() {
+//#include "InputManager.h"
+//#include "RenderManager.h"
+//#include "SoundManager.h"
+#include "Scene.h"
 
-		}
-		void draw() {
 
-		}
+class Game
+{
+public:
+	static Game* GetInstance() { return m_Instance; }
+	Game();
+	~Game();
+
+	void Update();
+	void Draw();
+
+	template <class T>
+	T* SetNextScene()
+	{
+		m_SceneNext = new T();
+		m_SceneNext->Load();
+		return dynamic_cast<T *>(m_SceneNext);
+	}
+	Scene* GetScene() { return m_Scene; }
+private:
+	void UpdateSceneTransform();
+	static Game* m_Instance;
+	Scene* m_Scene{ nullptr };
+	Scene* m_SceneNext{ nullptr };
 };

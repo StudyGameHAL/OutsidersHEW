@@ -131,17 +131,26 @@
   <ItemGroup>
     <ClCompile Include="debug_ostream.cpp" />
     <ClCompile Include="DirectX.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="debug_ostream.h" />
     <ClInclude Include="DirectX.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MathStruct.h" />
+    <ClInclude Include="Pch.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneGame.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="TestObject.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaderPixel3D.hlsl">

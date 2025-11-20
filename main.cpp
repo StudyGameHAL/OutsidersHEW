@@ -147,13 +147,13 @@ void Initialize(HWND hWnd) {
 }
 
 void Update() {
-  game->update();
+  game->Update();
   Keyboard_Update();
 }
 
 void Draw() {
   DX.clear();
-  game->draw();
+  game->Draw();
   DX.present();
 }
 
