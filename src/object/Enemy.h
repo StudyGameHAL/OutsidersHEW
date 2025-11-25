@@ -5,9 +5,9 @@
 class Enemy : public GameObject
 {
 private:
-	Vector3 velocity = Vector3(0.0f, 0.0f, 0.0f);
-	int health = 0;
-	Vector3 maxMoveSpeed = Vector3(0.0f, 0.0f, 0.0f);
+	Vector3 m_Velocity = Vector3(0.0f, 0.0f, 0.0f);
+	int m_Health = 0;
+	Vector3 m_MaxMoveSpeed = Vector3(0.0f, 0.0f, 0.0f);
 
 public:
 	Enemy() {};

@@ -1,6 +1,6 @@
-#include "src/object/Enemy.h"
+#include "object/Enemy.h"
 #include "render/DirectX.h"
-#include "src/scene/Scene.h"
+#include "scene/Scene.h"
 
 class Player;
 
