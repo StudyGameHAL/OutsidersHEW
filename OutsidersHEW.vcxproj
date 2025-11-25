@@ -70,6 +70,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir)extern;$(ProjectDir)src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir)extern;$(ProjectDir)src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -105,10 +111,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir)extern;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -120,28 +129,128 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir)extern;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="debug_ostream.cpp" />
-    <ClCompile Include="DirectX.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="src\core\debug_ostream.cpp" />
+    <ClCompile Include="src\object\Camera.cpp" />
+    <ClCompile Include="src\object\GameObject.cpp" />
+    <ClCompile Include="src\render\DirectX.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\core\Keyboard.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\render\model.cpp" />
+    <ClCompile Include="src\render\Shader.cpp" />
+    <ClCompile Include="src\object\TestObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="debug_ostream.h" />
-    <ClInclude Include="DirectX.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="MathStruct.h" />
-    <ClInclude Include="Shader.h" />
+    <ClInclude Include="extern\assimp\aabb.h" />
+    <ClInclude Include="extern\assimp\ai_assert.h" />
+    <ClInclude Include="extern\assimp\anim.h" />
+    <ClInclude Include="extern\assimp\Base64.hpp" />
+    <ClInclude Include="extern\assimp\BaseImporter.h" />
+    <ClInclude Include="extern\assimp\Bitmap.h" />
+    <ClInclude Include="extern\assimp\BlobIOSystem.h" />
+    <ClInclude Include="extern\assimp\ByteSwapper.h" />
+    <ClInclude Include="extern\assimp\camera.h" />
+    <ClInclude Include="extern\assimp\cexport.h" />
+    <ClInclude Include="extern\assimp\cfileio.h" />
+    <ClInclude Include="extern\assimp\cimport.h" />
+    <ClInclude Include="extern\assimp\ColladaMetaData.h" />
+    <ClInclude Include="extern\assimp\color4.h" />
+    <ClInclude Include="extern\assimp\commonMetaData.h" />
+    <ClInclude Include="extern\assimp\Compiler\poppack1.h" />
+    <ClInclude Include="extern\assimp\Compiler\pstdint.h" />
+    <ClInclude Include="extern\assimp\Compiler\pushpack1.h" />
+    <ClInclude Include="extern\assimp\config.h" />
+    <ClInclude Include="extern\assimp\CreateAnimMesh.h" />
+    <ClInclude Include="extern\assimp\DefaultIOStream.h" />
+    <ClInclude Include="extern\assimp\DefaultIOSystem.h" />
+    <ClInclude Include="extern\assimp\DefaultLogger.hpp" />
+    <ClInclude Include="extern\assimp\defs.h" />
+    <ClInclude Include="extern\assimp\Exceptional.h" />
+    <ClInclude Include="extern\assimp\Exporter.hpp" />
+    <ClInclude Include="extern\assimp\fast_atof.h" />
+    <ClInclude Include="extern\assimp\GenericProperty.h" />
+    <ClInclude Include="extern\assimp\GltfMaterial.h" />
+    <ClInclude Include="extern\assimp\Hash.h" />
+    <ClInclude Include="extern\assimp\Importer.hpp" />
+    <ClInclude Include="extern\assimp\importerdesc.h" />
+    <ClInclude Include="extern\assimp\IOStream.hpp" />
+    <ClInclude Include="extern\assimp\IOStreamBuffer.h" />
+    <ClInclude Include="extern\assimp\IOSystem.hpp" />
+    <ClInclude Include="extern\assimp\light.h" />
+    <ClInclude Include="extern\assimp\LineSplitter.h" />
+    <ClInclude Include="extern\assimp\LogAux.h" />
+    <ClInclude Include="extern\assimp\Logger.hpp" />
+    <ClInclude Include="extern\assimp\LogStream.hpp" />
+    <ClInclude Include="extern\assimp\material.h" />
+    <ClInclude Include="extern\assimp\MathFunctions.h" />
+    <ClInclude Include="extern\assimp\matrix3x3.h" />
+    <ClInclude Include="extern\assimp\matrix4x4.h" />
+    <ClInclude Include="extern\assimp\MemoryIOWrapper.h" />
+    <ClInclude Include="extern\assimp\mesh.h" />
+    <ClInclude Include="extern\assimp\metadata.h" />
+    <ClInclude Include="extern\assimp\NullLogger.hpp" />
+    <ClInclude Include="extern\assimp\ObjMaterial.h" />
+    <ClInclude Include="extern\assimp\ParsingUtils.h" />
+    <ClInclude Include="extern\assimp\pbrmaterial.h" />
+    <ClInclude Include="extern\assimp\port\AndroidJNI\AndroidJNIIOSystem.h" />
+    <ClInclude Include="extern\assimp\port\AndroidJNI\BundledAssetIOSystem.h" />
+    <ClInclude Include="extern\assimp\postprocess.h" />
+    <ClInclude Include="extern\assimp\Profiler.h" />
+    <ClInclude Include="extern\assimp\ProgressHandler.hpp" />
+    <ClInclude Include="extern\assimp\qnan.h" />
+    <ClInclude Include="extern\assimp\quaternion.h" />
+    <ClInclude Include="extern\assimp\RemoveComments.h" />
+    <ClInclude Include="extern\assimp\scene.h" />
+    <ClInclude Include="extern\assimp\SceneCombiner.h" />
+    <ClInclude Include="extern\assimp\SGSpatialSort.h" />
+    <ClInclude Include="extern\assimp\SkeletonMeshBuilder.h" />
+    <ClInclude Include="extern\assimp\SmallVector.h" />
+    <ClInclude Include="extern\assimp\SmoothingGroups.h" />
+    <ClInclude Include="extern\assimp\SpatialSort.h" />
+    <ClInclude Include="extern\assimp\StandardShapes.h" />
+    <ClInclude Include="extern\assimp\StreamReader.h" />
+    <ClInclude Include="extern\assimp\StreamWriter.h" />
+    <ClInclude Include="extern\assimp\StringComparison.h" />
+    <ClInclude Include="extern\assimp\StringUtils.h" />
+    <ClInclude Include="extern\assimp\Subdivision.h" />
+    <ClInclude Include="extern\assimp\texture.h" />
+    <ClInclude Include="extern\assimp\TinyFormatter.h" />
+    <ClInclude Include="extern\assimp\types.h" />
+    <ClInclude Include="extern\assimp\vector2.h" />
+    <ClInclude Include="extern\assimp\vector3.h" />
+    <ClInclude Include="extern\assimp\version.h" />
+    <ClInclude Include="extern\assimp\Vertex.h" />
+    <ClInclude Include="extern\assimp\XmlParser.h" />
+    <ClInclude Include="extern\assimp\XMLTools.h" />
+    <ClInclude Include="extern\assimp\ZipArchiveIOSystem.h" />
+    <ClInclude Include="src\object\Camera.h" />
+    <ClInclude Include="src\core\debug_ostream.h" />
+    <ClInclude Include="src\render\DirectX.h" />
+    <ClInclude Include="extern\DirectXTex.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\object\GameObject.h" />
+    <ClInclude Include="src\core\Keyboard.h" />
+    <ClInclude Include="src\render\MathStruct.h" />
+    <ClInclude Include="src\render\model.h" />
+    <ClInclude Include="src\Pch.h" />
+    <ClInclude Include="src\scene\Scene.h" />
+    <ClInclude Include="src\scene\SceneGame.h" />
+    <ClInclude Include="src\render\Shader.h" />
+    <ClInclude Include="src\object\TestObject.h" />
+    <ClInclude Include="src\core\Transform.h" />
+    <ClInclude Include="src\core\Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaderPixel3D.hlsl">
@@ -156,6 +265,17 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).cso</ObjectFileOutput>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="extern\assimp\color4.inl" />
+    <None Include="extern\assimp\material.inl" />
+    <None Include="extern\assimp\matrix3x3.inl" />
+    <None Include="extern\assimp\matrix4x4.inl" />
+    <None Include="extern\assimp\quaternion.inl" />
+    <None Include="extern\assimp\SmoothingGroups.inl" />
+    <None Include="extern\assimp\vector2.inl" />
+    <None Include="extern\assimp\vector3.inl" />
+    <None Include="extern\DirectXTex.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
