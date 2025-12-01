@@ -6,6 +6,16 @@ class Player;
 
 void Enemy::Update()
 {
+
+}
+
+void Enemy::Draw()
+{
+
+}
+
+void Enemy::ApplyRotationToPlayer()
+{
 	Scene* scene = GetScene();
 
 	// GameObject* player = scene->GetGameObject<Player>();
@@ -28,10 +38,4 @@ void Enemy::Update()
 		XMVectorGetY(newRotation),
 		XMVectorGetZ(newRotation)
 	));
-
-}
-
-void Enemy::Draw()
-{
-
 }

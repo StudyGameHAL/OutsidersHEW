@@ -15,4 +15,8 @@ public:
 
 	void Update() override;
 	void Draw() override;
+
+protected:
+	void ApplyRotationToPlayer();
+
 };
