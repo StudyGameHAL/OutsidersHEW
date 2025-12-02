@@ -68,23 +68,25 @@ void Enemy::ApplyRotationToPlayer()
 	//	XMVectorGetZ(newRotation)
 	//));
 
-
+	// シーンを取得
 	Scene* scene = GetScene();
 
+	// プレイヤーを取得
 	GameObject* player = scene->GetGameObject<Player>();
 
-	Vector3 playerPos = player->GetTransform().GetPosition();
-	Vector3 myPos = GetTransform().GetPosition(); // 修正: player->ではなく自分の座標
+	if (player == nullptr) return;
 
-	// 2. 差分ベクトル（方向）を計算
-	// Y軸（高さ）の差は無視して、水平方向の回転だけを考えるのが一般的です
+	// プレイヤーの座標を取得
+	Vector3 playerPos = player->GetTransform().GetPosition();
+	// 自分自身の座標を取得
+	Vector3 myPos = GetTransform().GetPosition();
+
+	// 差分ベクトル（方向）を計算 y軸は除外する
 	float dx = playerPos.x - myPos.x;
 	float dz = playerPos.z - myPos.z;
 
-	// 3. 角度の計算 (Y軸回転: Yaw)
-	// atan2(x, z) は (0,0,1) を基準とした角度をラジアンで返します
-	// ※座標系によっては atan2(dx, dz) か atan2(dz, dx) か異なりますが、
-	//   DirectX(左手座標系)でZ+が正面なら atan2(dx, dz) が一般的です。
+	// 角度の計算 (Y軸回転: Yaw)
+	// atan2(x, z) は (0,0,1) を基準とした角度をラジアンで返す
 	float angleY = atan2(dx, dz);
 
 	// 必要に応じてラジアンを度数法(Degree)に変換
