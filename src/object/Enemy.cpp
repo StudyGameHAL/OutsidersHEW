@@ -7,7 +7,19 @@ class Projectile;
 
 void Enemy::Update()
 {
+	Scene* scene = GetScene();
 
+	// アタックカウントを加算
+	m_AttackCount++;
+
+	// アタックするカウントになったとき
+	if (m_CountToAttack)
+	{
+		// シーンにゲームオブジェクトを追加
+		scene->AddGameObject<Projectile>();
+
+		// プロジェクタイルに力を加える
+	}
 }
 
 void Enemy::Draw()
@@ -28,22 +40,12 @@ void Enemy::ApplyRotationToPlayer()
 	XMVECTOR posVec = player->GetTransform().GetPosition().ToXMVECTOR();
 
 	// プレイヤーの方向を向くマトリクスを取得
-	XMMATRIX matrix = XMMatrixLookAtLH(posVec, playerPosVec, XMVectorSet(0.0f, 1.0f, 0.0f));
+	XMMATRIX matrix = XMMatrixLookAtLH(posVec, playerPosVec, XMVectorSet(0.0f, 1.0f, 0.0f, 0,0f));
 	XMVECTOR forwardVec = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	XMVECTOR upVec = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	XMMATRIX matrix = XMMatrixLookAtLH(posVec, playerPosVec, upVec);
 
-	// アタックカウントを加算
-	m_AttackCount++;
-
-	// アタックするカウントになったとき
-	if (m_CountToAttack)
-	{
-		// シーンにゲームオブジェクトを追加
-		scene->AddGameObject<Projectile>();
-
-		// プロジェクタイルに力を加える
-
+	
 
 	XMVECTOR rotation = GetTransform().GetRotationEuler().ToXMVECTOR();
 
