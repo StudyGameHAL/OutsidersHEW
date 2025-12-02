@@ -145,6 +145,7 @@
     <ClCompile Include="src\object\Camera.cpp" />
     <ClCompile Include="src\object\Enemy.cpp" />
     <ClCompile Include="src\object\GameObject.cpp" />
+    <ClCompile Include="src\object\Player.cpp" />
     <ClCompile Include="src\render\DirectX.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\core\Keyboard.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="src\render\model.cpp" />
     <ClCompile Include="src\render\Shader.cpp" />
     <ClCompile Include="src\object\TestObject.cpp" />
+    <ClCompile Include="src\scene\SceneGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="extern\assimp\aabb.h" />
@@ -239,6 +241,7 @@
     <ClInclude Include="src\object\Camera.h" />
     <ClInclude Include="src\core\debug_ostream.h" />
     <ClInclude Include="src\object\Enemy.h" />
+    <ClInclude Include="src\object\Player.h" />
     <ClInclude Include="src\render\DirectX.h" />
     <ClInclude Include="extern\DirectXTex.h" />
     <ClInclude Include="src\Game.h" />
