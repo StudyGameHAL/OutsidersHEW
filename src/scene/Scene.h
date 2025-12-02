@@ -1,6 +1,8 @@
 #pragma once
 #include "object/GameObject.h"
 #include <list>
+#include <typeinfo>
+#include "../render/DirectX.h"
 
 class Scene
 {
@@ -23,6 +25,7 @@ public:
 	}
 	virtual void Draw()
 	{
+		DX.setDepthEnable(true);
 		for (const auto& gameObject : m_GameObjects)
 		{
 			gameObject->Draw();
@@ -52,9 +55,9 @@ public:
 	template <class T>
 	T* GetGameObject()
 	{
-		for (auto& gameObject : m_GameObjects)
+		for (auto gameObject : m_GameObjects)
 		{
-			if (typeid(*gameObject) == typeid(T))
+			if (typeid(*gameObject).hash_code() == typeid(T).hash_code())
 			{
 				return dynamic_cast<T*>(gameObject);
 			}
