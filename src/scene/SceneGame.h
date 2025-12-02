@@ -3,6 +3,7 @@
 #include "object/camera.h"
 #include "object/TestObject.h"
 #include "object/Player.h"
+#include "object/Enemy.h"
 
 class SceneGame : public Scene
 {
@@ -13,9 +14,9 @@ public:
 		m_CurrentCamera = AddGameObject<Camera>();
 		m_CurrentCamera->GetTransform().SetPosition({ 0.0f, 10.0f, -10.0f });
 
-		AddGameObject<TestObject>();
+		//AddGameObject<TestObject>();
 		AddGameObject<Player>();
-
+		AddGameObject<Enemy>();
 	}
 private:
 	// TODO:
