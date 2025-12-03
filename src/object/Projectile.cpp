@@ -12,15 +12,14 @@ Projectile::~Projectile()
 void Projectile::Initialize()
 {
 	m_Lifetime = 2.0f;
+	m_old = std::chrono::steady_clock::now();
 }
 
 void Projectile::Update()
 {
-	static auto old = std::chrono::steady_clock::now();
 	auto now = std::chrono::steady_clock::now();
-
-	std::chrono::duration<float> delta = now - old;
-	old = now;
+	std::chrono::duration<float> delta = now - m_old;
+	m_old = now;
 
 	float dt = delta.count();
 
