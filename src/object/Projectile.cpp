@@ -26,6 +26,7 @@ void Projectile::Update()
 	// Move projectile
 	auto pos = m_Transform.GetPosition();
 	pos = pos + m_Velocity * dt;
+	m_Transform.SetPosition(pos);
 
 	// Reduce lifetime
 	m_Lifetime -= dt;
