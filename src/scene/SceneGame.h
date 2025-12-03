@@ -3,6 +3,7 @@
 #include "object/camera.h"
 #include "object/TestObject.h"
 #include "object/Player.h"
+#include "object/Enemy.h"
 
 class SceneGame : public Scene
 {
@@ -15,7 +16,7 @@ public:
 
 		AddGameObject<TestObject>();
 		AddGameObject<Player>();
-
+		AddGameObject<Enemy>();
 	}
 private:
 	// TODO:
