@@ -1,4 +1,5 @@
 #include "object/Player.h"
+#include "object/Enemy.h"
 #include "../core/Keyboard.h"
 #include "../render/model.h"
 #include "../render/Shader.h"
@@ -98,8 +99,11 @@ void Player::Update()
 		m_Transform.SetPosition(buffer);
 	}
 
-	//prevPosition = m_Transform.;
+	// ===== TransformをColliderに同期 =====
+	SyncCollidersFromTransform();
 
+	// ===== 基底クラスの衝突検出を呼び出し =====
+	CheckCollisions();
 }
 
 void Player::Draw()
@@ -118,4 +122,38 @@ void Player::Draw()
 void Player::Initialize()
 {
 	currentModel = ModelLoad("asset/model/cube.fbx");
+
+	// ===== OBBコライダーを追加（Playerを1x2x1の立方体と仮定） =====
+	auto collider = MakeObbCollider(DirectX::XMFLOAT3{0.5f, 1.0f, 0.5f});
+	AddCollider(std::move(collider));
+}
+
+// ===== 衝突コールバックのオーバーライド：Player専用ロジックを実装 =====
+bool Player::OnCollision(GameObject* other, ColliderBase* myCollider,
+                        ColliderBase* otherCollider, const OverlapResult& result)
+{
+	// 敵に接触：ダメージを受ける、ロールバックしない（重なりを許可）
+	if (auto* enemy = dynamic_cast<Enemy*>(other))
+	{
+		OnHitEnemy(enemy);
+		return false;  // ロールバックしない、敵との重なりを許可
+	}
+
+	// 静的オブジェクト（壁・地面）に接触：ロールバック
+	if (other->IsKinematic())
+	{
+		velocity = {0, 0, 0};  // 移動を停止
+		return true;  // ロールバックが必要
+	}
+
+	// その他の場合：処理なし
+	return false;
+}
+
+void Player::OnHitEnemy(Enemy* enemy)
+{
+	health -= 10;
+	// オプション：ノックバック効果
+	// Vector3 knockback = (GetTransform().GetPosition() - enemy->GetTransform().GetPosition()).GetNormalized() * 5.0f;
+	// velocity = knockback;
 }
