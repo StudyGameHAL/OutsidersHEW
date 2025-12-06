@@ -3,11 +3,7 @@
 #include <DirectXMath.h>
 using namespace DirectX;
 #include "Directx.h"
-<<<<<<<< HEAD:src/graphics/Shader.cpp
-#include "../core/debug_ostream.h"
-========
 #include "core/debug_ostream.h"
->>>>>>>> origin/develop:src/render/Shader.cpp
 #include <fstream>
 
 Shader::Shader(ID3D11Device* device, ID3D11DeviceContext* deviceContext) {
