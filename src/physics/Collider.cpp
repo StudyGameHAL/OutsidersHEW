@@ -10,10 +10,10 @@
 using namespace DirectX;
 
 namespace {
-    // ƒOƒ[ƒoƒ‹•¨—İ’èiepsilon’²®‰Â”\j
-    PhysicsConfig g_physicsConfig{}; // ƒfƒtƒHƒ‹ƒg epsilon=1e-5f
+    // ã‚°ãƒ­ãƒ¼ãƒãƒ«ç‰©ç†è¨­å®šï¼ˆepsilonèª¿æ•´å¯èƒ½ï¼‰
+    PhysicsConfig g_physicsConfig{}; // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ epsilon=1e-5f
 
-    // ---- ƒ†[ƒeƒBƒŠƒeƒB ----
+    // ---- ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ ----
     using namespace DirectX;
 
     inline XMVECTOR Load3(const XMFLOAT3 &v) { return XMVectorSet(v.x, v.y, v.z, 0.0f); }
@@ -26,10 +26,10 @@ namespace {
 
     inline float Clamp(float x, float a, float b) { return std::fmax(a, std::fmin(b, x)); }
 
-    // “_‚ğ‹æŠÔ[-e,e]‚ÉƒNƒ‰ƒ“ƒv
+    // ç‚¹ã‚’åŒºé–“[-e,e]ã«ã‚¯ãƒ©ãƒ³ãƒ—
     inline float ClampToExtent(float x, float e) { return Clamp(x, -e, e); }
 
-    // Å‹ß“_F“_‚©‚çOBBi’†S+²+”¼ƒTƒCƒY‚ğg—pj
+    // æœ€è¿‘ç‚¹ï¼šç‚¹ã‹ã‚‰OBBï¼ˆä¸­å¿ƒ+è»¸+åŠã‚µã‚¤ã‚ºã‚’ä½¿ç”¨ï¼‰
     inline XMFLOAT3 ClosestPointOnObb(const XMFLOAT3 &p,
                                       const XMFLOAT3 &c,
                                       const XMFLOAT3 axes[3],
@@ -38,7 +38,7 @@ namespace {
         XMVECTOR C = Load3(c);
         XMVECTOR d = XMVectorSubtract(P, C);
         float qx = 0, qy = 0, qz = 0;
-        // Še²‚É“Š‰e‚µ‚ÄƒNƒ‰ƒ“ƒv
+        // å„è»¸ã«æŠ•å½±ã—ã¦ã‚¯ãƒ©ãƒ³ãƒ—
         XMVECTOR ax = Load3(axes[0]);
         XMVECTOR ay = Load3(axes[1]);
         XMVECTOR az = Load3(axes[2]);
@@ -53,7 +53,7 @@ namespace {
         return ToFloat3(Q);
     }
 
-    // “_‚©‚çü•ª‚Ö‚ÌÅ‹ß‹——£‚Ì“ñæ
+    // ç‚¹ã‹ã‚‰ç·šåˆ†ã¸ã®æœ€è¿‘è·é›¢ã®äºŒä¹—
     inline float DistPointSegmentSq(const XMFLOAT3 &p, const XMFLOAT3 &a, const XMFLOAT3 &b) {
         XMVECTOR P = Load3(p);
         XMVECTOR A = Load3(a);
@@ -68,7 +68,7 @@ namespace {
         return XMVectorGetX(XMVector3Dot(d, d));
     }
 
-    // ü•ª-ü•ªŠÔ‚ÌÅ‹ß‹——£‚Ì“ñæiƒIƒvƒVƒ‡ƒ“‚ÅÅ‹ß“_‚Æƒpƒ‰ƒ[ƒ^‚ğo—Íj
+    // ç·šåˆ†-ç·šåˆ†é–“ã®æœ€è¿‘è·é›¢ã®äºŒä¹—ï¼ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§æœ€è¿‘ç‚¹ã¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å‡ºåŠ›ï¼‰
     inline float DistSegmentSegmentSq(const XMFLOAT3 &p1, const XMFLOAT3 &q1,
                                       const XMFLOAT3 &p2, const XMFLOAT3 &q2,
                                       float *outS = nullptr, float *outT = nullptr,
@@ -126,14 +126,14 @@ namespace {
         return XMVectorGetX(XMVector3Dot(d, d));
     }
 
-    // ü•ª‚ÆAABBi’†S‚ªŒ´“_Ahalf extents=hej‚ÌŒğ·ƒeƒXƒgislab–@jA“ü—Í‚Íƒ[ƒJƒ‹‹óŠÔÀ•W
+    // ç·šåˆ†ã¨AABBï¼ˆä¸­å¿ƒãŒåŸç‚¹ã€half extents=heï¼‰ã®äº¤å·®ãƒ†ã‚¹ãƒˆï¼ˆslabæ³•ï¼‰ã€å…¥åŠ›ã¯ãƒ­ãƒ¼ã‚«ãƒ«ç©ºé–“åº§æ¨™
     inline bool SegmentAabbIntersect(const XMFLOAT3 &p0, const XMFLOAT3 &p1, const XMFLOAT3 &he) {
         float tmin = 0.0f, tmax = 1.0f;
         float eps = GetPhysicsConfig().epsilon;
         XMFLOAT3 d{p1.x - p0.x, p1.y - p0.y, p1.z - p0.z};
         auto slab = [&](float p, float dp, float heAxis)-> bool {
             if (std::fabs(dp) < eps) {
-                // •½sFn“_‚Í‹æŠÔ“à‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+                // å¹³è¡Œï¼šå§‹ç‚¹ã¯åŒºé–“å†…ã§ãªã‘ã‚Œã°ãªã‚‰ãªã„
                 return (-heAxis <= p && p <= heAxis);
             }
             float invD = 1.0f / dp;
@@ -150,7 +150,7 @@ namespace {
         return tmax >= 0.0f && tmin <= 1.0f;
     }
 
-    // OBB-OBB SATƒu[ƒ‹ƒeƒXƒg
+    // OBB-OBB SATãƒ–ãƒ¼ãƒ«ãƒ†ã‚¹ãƒˆ
     struct SatInfo {
         bool intersects = false;
         float penetration = 0;
@@ -166,7 +166,7 @@ namespace {
         A.axesWorld(a);
         B.axesWorld(b);
 
-        // ‰ñ“]s—ñ: Rij = Ai dot Bj
+        // å›è»¢è¡Œåˆ—: Rij = Ai dot Bj
         float R[3][3];
         float AbsR[3][3];
         float eps = GetPhysicsConfig().epsilon;
@@ -175,10 +175,10 @@ namespace {
             for (int j = 0; j < 3; ++j) {
                 float rij = XMVectorGetX(XMVector3Dot(ai, Load3(b[j])));
                 R[i][j] = rij;
-                AbsR[i][j] = std::fabs(rij) + 1e-6f; // ‹¤ü‹ß—‚É‘Î‰‚·‚é‚½‚ß¬‚³‚È—]—T‚ğ’Ç‰Á
+                AbsR[i][j] = std::fabs(rij) + 1e-6f; // å…±ç·šè¿‘ä¼¼ã«å¯¾å¿œã™ã‚‹ãŸã‚å°ã•ãªä½™è£•ã‚’è¿½åŠ 
             }
         }
-        // •ÀiƒxƒNƒgƒ‹ tiA‚©‚çBjAA‚ÌÀ•WŒn‚Å•\Œ»FtA = dot(CB-CA, Ai)
+        // ä¸¦é€²ãƒ™ã‚¯ãƒˆãƒ« tï¼ˆAã‹ã‚‰Bï¼‰ã€Aã®åº§æ¨™ç³»ã§è¡¨ç¾ï¼štA = dot(CB-CA, Ai)
         XMVECTOR tVec = XMVectorSubtract(Load3(CB), Load3(CA));
         float tA[3] = {
             XMVectorGetX(XMVector3Dot(tVec, Load3(a[0]))),
@@ -186,7 +186,7 @@ namespace {
             XMVectorGetX(XMVector3Dot(tVec, Load3(a[2])))
         };
 
-        // A‚Ì–Ê–@ü²‚ğƒeƒXƒg
+        // Aã®é¢æ³•ç·šè»¸ã‚’ãƒ†ã‚¹ãƒˆ
         float ra, rb;
         // A0..A2
         ra = EA.x;
@@ -199,7 +199,7 @@ namespace {
         rb = EB.x * AbsR[2][0] + EB.y * AbsR[2][1] + EB.z * AbsR[2][2];
         if (std::fabs(tA[2]) > ra + rb) return false;
 
-        // B‚Ì–Ê–@ü²
+        // Bã®é¢æ³•ç·šè»¸
         float tB0 = tA[0] * R[0][0] + tA[1] * R[1][0] + tA[2] * R[2][0];
         float tB1 = tA[0] * R[0][1] + tA[1] * R[1][1] + tA[2] * R[2][1];
         float tB2 = tA[0] * R[0][2] + tA[1] * R[1][2] + tA[2] * R[2][2];
@@ -213,8 +213,8 @@ namespace {
         rb = EB.z;
         if (std::fabs(tB2) > ra + rb) return false;
 
-        // 9‚Â‚ÌŠOÏ² Ai x Bj
-        // ²’·‚ªƒ[ƒ‚Å‚È‚¢ê‡‚Ì‚İƒeƒXƒgiAbsR‚Éeps‚ğ‰Á‚¦‚Ä‘Ş‰»‚ğˆ—Ï‚İj
+        // 9ã¤ã®å¤–ç©è»¸ Ai x Bj
+        // è»¸é•·ãŒã‚¼ãƒ­ã§ãªã„å ´åˆã®ã¿ãƒ†ã‚¹ãƒˆï¼ˆAbsRã«epsã‚’åŠ ãˆã¦é€€åŒ–ã‚’å‡¦ç†æ¸ˆã¿ï¼‰
         // A0 x B0..B2
         ra = EA.y * AbsR[2][0] + EA.z * AbsR[1][0];
         rb = EB.y * AbsR[0][2] + EB.z * AbsR[0][1];
@@ -246,10 +246,10 @@ namespace {
         rb = EB.x * AbsR[2][1] + EB.y * AbsR[2][0];
         if (std::fabs(tA[1] * R[0][2] - tA[0] * R[1][2]) > ra + rb) return false;
 
-        return true; // •ª—£²‚È‚µ
+        return true; // åˆ†é›¢è»¸ãªã—
     }
 
-    // SAT ÅóŠÑ’Ê²‚Æ[“x‚ğ“¯‚Éo—Íiƒ[ƒ‹ƒh‹óŠÔj
+    // SAT æœ€æµ…è²«é€šè»¸ã¨æ·±åº¦ã‚’åŒæ™‚ã«å‡ºåŠ›ï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ï¼‰
     inline SatInfo ObbObbSatWithAxis(const ObbCollider &A, const ObbCollider &B) {
         SatInfo info{};
         XMFLOAT3 CA = A.centerWorld();
@@ -324,7 +324,7 @@ namespace {
 
     inline XMFLOAT3 SupportPointOnObb(const XMFLOAT3 &center, const XMFLOAT3 axes[3], const XMFLOAT3 &he,
                                       const XMFLOAT3 &dir) {
-        // •Ô‰ñ OBB İ•ûŒü dir ã“IÅ?“_
+        // è¿”å› OBB åœ¨æ–¹å‘ dir ä¸Šçš„æœ€?ç‚¹
         XMVECTOR D = Load3(dir);
         XMFLOAT3 o = center;
         float s0 = XMVectorGetX(XMVector3Dot(D, Load3(axes[0]))) >= 0 ? 1.f : -1.f;
@@ -340,10 +340,10 @@ namespace {
         return XMFLOAT3{ClampToExtent(p.x, he.x), ClampToExtent(p.y, he.y), ClampToExtent(p.z, he.z)};
     }
 
-    // ?’i—^ AABB Å‹ß“_?i‘S•”İ OBB ‹Ç•”‹ó?jG•Ô‰ñÅ¬‹—?•½•ûC“¯??oÅ‹ß“_
+    // ?æ®µä¸ AABB æœ€è¿‘ç‚¹?ï¼ˆå…¨éƒ¨åœ¨ OBB å±€éƒ¨ç©º?ï¼‰ï¼›è¿”å›æœ€å°è·?å¹³æ–¹ï¼ŒåŒ??å‡ºæœ€è¿‘ç‚¹
     inline float ClosestPtSegmentAabbLocal(const XMFLOAT3 &p0, const XMFLOAT3 &p1, const XMFLOAT3 &he,
                                            XMFLOAT3 &outSeg, XMFLOAT3 &outBox) {
-        // Œó?WFt=0,1 ˆÈ‹y—^?˜¢•½–Ê“IŒğ“_ tiáİ[0,1]j
+        // å€™?é›†ï¼št=0,1 ä»¥åŠä¸?ä¸ªå¹³é¢çš„äº¤ç‚¹ tï¼ˆè‹¥åœ¨[0,1]ï¼‰
         XMFLOAT3 d{p1.x - p0.x, p1.y - p0.y, p1.z - p0.z};
         float bestD2 = std::numeric_limits<float>::infinity();
         auto evalT = [&](float t) {
@@ -376,11 +376,11 @@ namespace {
     }
 }
 
-// ---- ƒOƒ[ƒoƒ‹İ’è ----
+// ---- ã‚°ãƒ­ãƒ¼ãƒãƒ«è¨­å®š ----
 const PhysicsConfig &GetPhysicsConfig() { return g_physicsConfig; }
 void SetPhysicsEpsilon(float e) { g_physicsConfig.epsilon = e; }
 
-// ---- “ˆêŒŸoƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒgiƒtƒF[ƒY2Fƒu[ƒ‹‹·ˆæj ----
+// ---- çµ±ä¸€æ¤œå‡ºã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆï¼ˆãƒ•ã‚§ãƒ¼ã‚º2ï¼šãƒ–ãƒ¼ãƒ«ç‹­åŸŸï¼‰ ----
 static bool IntersectSphereSphere(const SphereCollider &A, const SphereCollider &B) {
     XMFLOAT3 ca = A.centerWorld();
     XMFLOAT3 cb = B.centerWorld();
@@ -414,7 +414,7 @@ static bool IntersectObbObbPublic(const ObbCollider &A, const ObbCollider &B) {
 }
 
 static bool IntersectObbCapsule(const ObbCollider &B, const CapsuleCollider &C) {
-    // «?’i??“ OBB “I‹Ç•”‹ó?FpL = [ dot(p - Cb, axis_i) ]
+    // å°†?æ®µ??åˆ° OBB çš„å±€éƒ¨ç©º?ï¼špL = [ dot(p - Cb, axis_i) ]
     XMFLOAT3 axes[3];
     B.axesWorld(axes);
     XMFLOAT3 cB = B.centerWorld();
@@ -448,7 +448,7 @@ static bool IntersectCapsuleCapsule(const CapsuleCollider &A, const CapsuleColli
 bool Intersect(const ColliderBase &A, const ColliderBase &B) {
     ColliderType ta = A.kind();
     ColliderType tb = B.kind();
-    // ãOŠp•ª?C•K—v?Œğ?
+    // ä¸Šä¸‰è§’åˆ†?ï¼Œå¿…è¦?äº¤?
     auto swapAB = [&]() { return Intersect(B, A); };
     switch (ta) {
         case ColliderType::Sphere:
@@ -467,7 +467,7 @@ bool Intersect(const ColliderBase &A, const ColliderBase &B) {
         case ColliderType::Obb:
             switch (tb) {
                 case ColliderType::Sphere:
-                    // ?Ì
+                    // ?ç§°
                     return IntersectSphereObb(static_cast<const SphereCollider &>(B),
                                               static_cast<const ObbCollider &>(A));
                 case ColliderType::Obb:
@@ -495,7 +495,7 @@ bool Intersect(const ColliderBase &A, const ColliderBase &B) {
     return false;
 }
 
-// ---- ÚGî•ñ•t‚«Œğ· ----
+// ---- æ¥è§¦æƒ…å ±ä»˜ãäº¤å·® ----
 static void ComputeSphereSphere(const SphereCollider &A, const SphereCollider &B, OverlapResult &out) {
     XMFLOAT3 ca = A.centerWorld();
     XMFLOAT3 cb = B.centerWorld();
@@ -536,8 +536,8 @@ static void ComputeSphereObb(const SphereCollider &S, const ObbCollider &B, Over
         out.pointOnB = q;
         out.normal = n;
     } else {
-        // ‹…Sİá´“àF˜¸ OBB ‹Ç•”QÅ‹ß–Ê
-        // ‹Ç•”¿? u = dot(cs - cB, axis)
+        // çƒå¿ƒåœ¨ç›’å†…ï¼šä» OBB å±€éƒ¨æ‰¾æœ€è¿‘é¢
+        // å±€éƒ¨å? u = dot(cs - cB, axis)
         XMVECTOR dV = XMVectorSubtract(Load3(cs), Load3(cB));
         float u[3] = {
             XMVectorGetX(XMVector3Dot(dV, Load3(axes[0]))),
@@ -560,8 +560,8 @@ static void ComputeSphereObb(const SphereCollider &S, const ObbCollider &B, Over
 
 static void ComputeSphereCapsule(const SphereCollider &S, const CapsuleCollider &C, OverlapResult &out) {
     auto seg = C.segmentWorld();
-    // Å‹ß“_ q İ?’iã
-    // d—p DistPointSegmentSq ’A©ŒÈ‹ q
+    // æœ€è¿‘ç‚¹ q åœ¨?æ®µä¸Š
+    // é‡ç”¨ DistPointSegmentSq ä½†è‡ªå·±æ±‚ q
     XMVECTOR P = Load3(S.centerWorld());
     XMVECTOR A = Load3(seg.first);
     XMVECTOR Bv = Load3(seg.second);
@@ -591,7 +591,7 @@ static void ComputeCapsuleCapsule(const CapsuleCollider &A, const CapsuleCollide
     auto sa = A.segmentWorld();
     auto sb = B.segmentWorld();
     XMFLOAT3 pa, pb;
-    float s = 0, t = 0; // Å‹ß“_
+    float s = 0, t = 0; // æœ€è¿‘ç‚¹
     float d2 = DistSegmentSegmentSq(sa.first, sa.second, sb.first, sb.second, &s, &t, &pa, &pb);
     float d = std::sqrt(std::max(0.0f, d2));
     float rSum = A.radiusWorld() + B.radiusWorld();
@@ -610,14 +610,14 @@ static void ComputeObbObb(const ObbCollider &A, const ObbCollider &B, OverlapRes
     SatInfo si = ObbObbSatWithAxis(A, B);
     out.intersects = si.intersects;
     if (!si.intersects) return;
-    // –@?•ûŒü?˜¸ A wŒü B
+    // æ³•?æ–¹å‘?ä» A æŒ‡å‘ B
     XMVECTOR dC = XMVectorSubtract(Load3(B.centerWorld()), Load3(A.centerWorld()));
     XMVECTOR nV = Load3(si.axis);
     float sign = XMVectorGetX(XMVector3Dot(dC, nV)) >= 0 ? 1.0f : -1.0f;
     XMFLOAT3 n = XMFLOAT3{si.axis.x * sign, si.axis.y * sign, si.axis.z * sign};
     out.normal = n;
     out.penetration = si.penetration;
-    // ‹ß—ÚG“_F—px“_
+    // è¿‘ä¼¼æ¥è§¦ç‚¹ï¼šç”¨æ”¯æŒç‚¹
     XMFLOAT3 axesA[3];
     A.axesWorld(axesA);
     XMFLOAT3 axesB[3];
@@ -627,8 +627,8 @@ static void ComputeObbObb(const ObbCollider &A, const ObbCollider &B, OverlapRes
     XMFLOAT3 pB = B.centerWorld();
     XMFLOAT3 heB = B.halfExtentsWorld();
     // support along -n for A, +n for B
-    // è???x“_i?‰º•û SupportPointOnObb ??j
-    // ?—p”Ÿ”
+    // OBBï¼ˆç›´æ–¹ä½“ï¼‰ã®æŒ‡å®šæ–¹å‘ã¸ã®ã‚µãƒãƒ¼ãƒˆãƒã‚¤ãƒ³ãƒˆï¼ˆæœ€ã‚‚é ã„ç‚¹ï¼‰ã‚’è¨ˆç®—ã™ã‚‹é–¢æ•°
+    // See: SupportPointOnObb
     auto support = [](const XMFLOAT3 &c, const XMFLOAT3 axes[3], const XMFLOAT3 &he, const XMFLOAT3 &dir) {
         XMVECTOR D = Load3(dir);
         float s0 = XMVectorGetX(XMVector3Dot(D, Load3(axes[0]))) >= 0 ? 1.f : -1.f;
@@ -646,7 +646,7 @@ static void ComputeObbObb(const ObbCollider &A, const ObbCollider &B, OverlapRes
 }
 
 static void ComputeObbCapsule(const ObbCollider &B, const CapsuleCollider &C, OverlapResult &out) {
-    // İ OBB ‹Ç•”˜ôÅ‹ß“_
+    // åœ¨ OBB å±€éƒ¨åšæœ€è¿‘ç‚¹
     XMFLOAT3 axes[3];
     B.axesWorld(axes);
     XMFLOAT3 cB = B.centerWorld();
@@ -682,8 +682,8 @@ static void ComputeObbCapsule(const ObbCollider &B, const CapsuleCollider &C, Ov
     XMFLOAT3 n{1, 0, 0};
     if (d > GetPhysicsConfig().epsilon) XMStoreFloat3(&n, XMVectorScale(diff, 1.0f / d));
     else {
-        // g—pwŒüÅ‹ß–Ê“I–@?
-        XMFLOAT3 u = pL; // ‹ß—g—p’i“_‹Ç•”ˆÊ’u
+        // ä½¿ç”¨æŒ‡å‘æœ€è¿‘é¢çš„æ³•?
+        XMFLOAT3 u = pL; // è¿‘ä¼¼ä½¿ç”¨æ®µç‚¹å±€éƒ¨ä½ç½®
         float ex[3] = {he.x - std::fabs(u.x), he.y - std::fabs(u.y), he.z - std::fabs(u.z)};
         int k = 0;
         if (ex[1] < ex[k]) k = 1;
@@ -699,7 +699,7 @@ static void ComputeObbCapsule(const ObbCollider &B, const CapsuleCollider &C, Ov
 }
 
 bool Intersect(const ColliderBase &A, const ColliderBase &B, OverlapResult &out) {
-    out = OverlapResult{}; // ´—ë
+    out = OverlapResult{}; // æ¸…é›¶
     ColliderType ta = A.kind();
     ColliderType tb = B.kind();
     switch (ta) {
@@ -723,7 +723,7 @@ bool Intersect(const ColliderBase &A, const ColliderBase &B, OverlapResult &out)
                 case ColliderType::Sphere:
                     ComputeSphereObb(static_cast<const SphereCollider &>(B), static_cast<const ObbCollider &>(A), out);
                     if (out.intersects) {
-                        // •ûŒüù—v˜¸ A->BC“–‘O?Z“I¥ Sphere vs ObbC”c–@?æ”½
+                        // æ–¹å‘éœ€è¦ä» A->Bï¼Œå½“å‰?ç®—çš„æ˜¯ Sphere vs Obbï¼ŒæŠŠæ³•?å–å
                         out.normal = XMFLOAT3{-out.normal.x, -out.normal.y, -out.normal.z};
                         std::swap(out.pointOnA, out.pointOnB);
                     }
