@@ -29,6 +29,29 @@ public:
 
 		return mat;
 	}
+
+	Vector3 GetForward() const
+	{
+		using namespace DirectX;
+
+		XMVECTOR qRotation = XMQuaternionRotationRollPitchYaw(
+			m_Rotation.x,
+			m_Rotation.y,
+			m_Rotation.z
+		);
+
+		XMVECTOR forwardLocal = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+		XMVECTOR forwardRotated = XMVector3Rotate(forwardLocal, qRotation);
+
+		Vector3 vec = Vector3(
+			XMVectorGetX(forwardRotated),
+			XMVectorGetY(forwardRotated),
+			XMVectorGetZ(forwardRotated)
+		);
+
+		return vec;
+	}
+
 private:
 	Vector3	m_Position{};
 	Vector3	m_Rotation{}; // ??
