@@ -78,6 +78,7 @@ void Enemy::ApplyRotationToPlayer()
 
 	// プレイヤーの座標を取得
 	Vector3 playerPos = player->GetTransform().GetPosition();
+
 	// 自分自身の座標を取得
 	Vector3 myPos = GetTransform().GetPosition();
 
@@ -89,11 +90,6 @@ void Enemy::ApplyRotationToPlayer()
 	// atan2(x, z) は (0,0,1) を基準とした角度をラジアンで返す
 	float angleY = atan2(dx, dz);
 
-	// 必要に応じてラジアンを度数法(Degree)に変換
-	// m_Transformがラジアンを受け取るか度数を受け取るかによります
-	// float angleYDeg = XMConvertToDegrees(angleY);
-
-	// 4. 回転の適用
-	// X軸(Pitch)とZ軸(Roll)は0にして、Y軸だけ回す
+	// 回転の適用
 	m_Transform.SetRotationEuler(Vector3(0.0f, angleY, 0.0f));
 }
