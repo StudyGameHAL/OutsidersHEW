@@ -18,14 +18,7 @@ public:
 	}
 	virtual void Update()
 	{
-		// ステップ1：全オブジェクトの現在位置を保存（ロールバック用）
-		for (auto& gameObject : m_GameObjects)
-		{
-			gameObject->SaveTransform();
-		}
-
-		// ステップ2：各オブジェクトが自身で更新（内部で衝突処理を行う）
-		for (auto& gameObject : m_GameObjects)
+		for (const auto& gameObject : m_GameObjects)
 		{
 			gameObject->Update();
 		}
@@ -49,9 +42,6 @@ public:
 		m_GameObjects.clear();
 	}
 	class Camera* GetCurrentCamera() { return m_CurrentCamera; }
-
-	// ===== 新規追加：衝突検出用 =====
-	const std::list<GameObject*>& GetAllGameObjects() const { return m_GameObjects; }
 
 	template <class T>
 	T* AddGameObject()
