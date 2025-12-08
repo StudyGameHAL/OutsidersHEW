@@ -4,8 +4,8 @@
 #include "../render/Shader.h"
 #include "object/Camera.h"
 #include "object/Player.h"
+#include "object/Projectile.h"
 
-class Projectile;
 
 void Enemy::Initialize()
 {
@@ -20,12 +20,14 @@ void Enemy::Update()
 	m_AttackCount++;
 
 	// アタックするカウントになったとき
-	if (m_CountToAttack)
+	if (m_AttackCount > m_CountToAttack)
 	{
+		m_AttackCount = 0;
 		// シーンにゲームオブジェクトを追加
-		//scene->AddGameObject<Projectile>();
+		Projectile* projectile = scene->AddGameObject<Projectile>();
 
 		// プロジェクタイルに力を加える
+		projectile->SetVelocity(m_Transform.GetForward() * 2.0f);
 	}
 }
 
