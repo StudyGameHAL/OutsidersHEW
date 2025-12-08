@@ -27,7 +27,7 @@ void Enemy::Update()
 		Projectile* projectile = scene->AddGameObject<Projectile>();
 
 		// プロジェクタイルに力を加える
-		projectile->SetVelocity(m_Transform.GetForward() * 2.0f);
+		projectile->SetVelocity(m_Transform.GetForwardVector() * 2.0f);
 	}
 }
 
