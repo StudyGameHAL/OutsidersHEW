@@ -43,31 +43,6 @@ void Enemy::Draw()
 
 void Enemy::ApplyRotationToPlayer()
 {
-	//Scene* scene = GetScene();
-
-	//GameObject* player = scene->GetGameObject<Player>();
-	////GameObject* player;
-
-	//// プレイヤーのベクトルを取得
-	//XMVECTOR playerPosVec = player->GetTransform().GetPosition().ToXMVECTOR();
-	//// 自分のベクトルを取得
-	//XMVECTOR posVec = m_Transform.GetPosition().ToXMVECTOR();
-
-	//// プレイヤーの方向を向くマトリクスを取得
-	//XMVECTOR forwardVec = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-	//XMVECTOR upVec = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-	//XMMATRIX matrix = XMMatrixLookAtLH(posVec, playerPosVec, upVec);
-
-	//XMVECTOR rotation = GetTransform().GetRotationEuler().ToXMVECTOR();
-
-	//XMVECTOR newRotation = XMVector3TransformNormal(rotation, matrix);
-
-	//m_Transform.SetRotationEuler(Vector3(
-	//	XMVectorGetX(newRotation),
-	//	XMVectorGetY(newRotation),
-	//	XMVectorGetZ(newRotation)
-	//));
-
 	// シーンを取得
 	Scene* scene = GetScene();
 
