@@ -34,7 +34,6 @@ private:
 	MODEL* currentModel;
 
 	void HandleInput();
-	void OnHitEnemy(class Enemy* enemy);
 
 public:
 	PlayerState GetState() const noexcept { return currentState; };
@@ -56,11 +55,7 @@ public:
 
 	void Draw() override;
 
-	void Initialize() override;
-
-	// ===== 衝突コールバックのオーバーライド =====
-	bool OnCollision(GameObject* other, ColliderBase* myCollider,
-	                ColliderBase* otherCollider, const OverlapResult& result) override;
+	void Initialize();
 
 	Player() = default;
 	~Player() = default;
