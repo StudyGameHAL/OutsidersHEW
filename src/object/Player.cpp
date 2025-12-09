@@ -44,6 +44,9 @@ void Player::HandleInput()
 
 void Player::Update()
 {
+	if (health <= 0)
+		isDeleted = true;
+
 	HandleInput();
 
 	float deltaTime = 0.016f;
