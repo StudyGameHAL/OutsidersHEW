@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "object/GameObject.h"
 #include <list>
 #include <typeinfo>
@@ -18,6 +18,15 @@ public:
 	}
 	virtual void Update()
 	{
+
+		// ステップ1：全オブジェクトの現在位置を保存（ロールバック用）
+		for (auto& gameObject : m_GameObjects)
+		{
+			gameObject->SaveTransform();
+		}
+
+		// ステップ2：各オブジェクトが自身で更新（内部で衝突処理を行う）
+
 		for (const auto& gameObject : m_GameObjects)
 		{
 			gameObject->Update();
@@ -64,6 +73,9 @@ public:
 		}
 		return nullptr;
 	}
+
+	const std::list<GameObject*>& GetAllGameObjects() const { return m_GameObjects; }
+
 protected:
 	std::list<GameObject *> m_GameObjects;
 	class Camera* m_CurrentCamera{};

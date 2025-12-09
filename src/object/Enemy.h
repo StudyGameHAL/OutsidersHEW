@@ -15,7 +15,7 @@ private:
 	MODEL* m_Model;
 
 private:
-	static constexpr int m_CountToAttack = 120;
+	static constexpr int m_CountToAttack = 25;
 public:
 	Enemy() = default;
 	virtual ~Enemy() = default;
@@ -28,4 +28,8 @@ public:
 protected:
 	void ApplyRotationToPlayer();
 
-};	
+	// ===== 衝突コールバックのオーバーライド：Enemy専用ロジックを実装 =====
+	bool OnCollision(GameObject* other, ColliderBase* myCollider,
+		ColliderBase* otherCollider, const OverlapResult& result) override;
+
+};
