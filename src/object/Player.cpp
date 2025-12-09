@@ -9,6 +9,8 @@
 
 void Player::HandleInput()
 {
+	inputVelocity = { 0.0f, 0.0f, 0.0f }; // Reset input velocity after applying movement
+
 	if (Keyboard_IsKeyDown(KK_A))
 	{
 		inputVelocity.x += -1.0f;
@@ -36,9 +38,7 @@ void Player::HandleInput()
 	if (Keyboard_IsKeyTrigger(KK_SPACE))
 	{
 		SetState(PlayerState::DASHING);
-
 	}
-
 }
 
 void Player::Update()
@@ -89,7 +89,6 @@ void Player::Update()
 
 		velocity.x += inputVelocity.x * moveSpeed * deltaTime;
 		velocity.z += inputVelocity.z * moveSpeed * deltaTime;
-		inputVelocity = { 0.0f, 0.0f, 0.0f }; // Reset input velocity after applying movement
 	}
 
 	if (currentState == PlayerState::DASHING)
