@@ -34,6 +34,10 @@ public:
 	void SetKinematic(bool kinematic) { m_IsKinematic = kinematic; }
 	bool IsKinematic() const { return m_IsKinematic; }
 
+	// ===== Deletedフラグ（もう存在していないかどうか） =====
+	void SetDeleted(bool deleted) noexcept { isDeleted = deleted; }
+	bool IsDeleted() const noexcept { return isDeleted; }
+
 	// ===== 衝突検出（基底クラスがデフォルト実装を提供） =====
 	virtual void CheckCollisions();
 
@@ -50,4 +54,5 @@ protected:
 	std::vector<std::unique_ptr<ColliderBase>> m_Colliders;
 	bool m_IsKinematic = false;  // デフォルトは動的オブジェクト
 
+	bool isDeleted = false;
 };
