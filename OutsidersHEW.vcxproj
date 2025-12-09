@@ -143,7 +143,10 @@
   <ItemGroup>
     <ClCompile Include="src\core\debug_ostream.cpp" />
     <ClCompile Include="src\object\Camera.cpp" />
+    <ClCompile Include="src\object\Enemy.cpp" />
+    <ClCompile Include="src\object\Field.cpp" />
     <ClCompile Include="src\object\GameObject.cpp" />
+    <ClCompile Include="src\object\Projectile.cpp" />
     <ClCompile Include="src\object\Player.cpp" />
     <ClCompile Include="src\render\DirectX.cpp" />
     <ClCompile Include="src\Game.cpp" />
@@ -239,6 +242,9 @@
     <ClInclude Include="extern\assimp\ZipArchiveIOSystem.h" />
     <ClInclude Include="src\object\Camera.h" />
     <ClInclude Include="src\core\debug_ostream.h" />
+    <ClInclude Include="src\object\Projectile.h" />
+    <ClInclude Include="src\object\Enemy.h" />
+    <ClInclude Include="src\object\Field.h" />
     <ClInclude Include="src\object\Player.h" />
     <ClInclude Include="src\render\DirectX.h" />
     <ClInclude Include="extern\DirectXTex.h" />
