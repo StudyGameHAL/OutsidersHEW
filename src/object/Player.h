@@ -23,6 +23,7 @@ private:
 	Vector3 velocity;
 
 	int health = 100;
+	int damage = 1;
 
 	float jumpPower = 10.0f;
 
@@ -31,7 +32,9 @@ private:
 
 	float friction = 10.0f;
 
-	MODEL* currentModel;
+	MODEL* currentModel = nullptr;
+
+
 
 	void HandleInput();
 
