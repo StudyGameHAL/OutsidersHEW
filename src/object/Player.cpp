@@ -9,6 +9,8 @@
 
 void Player::HandleInput()
 {
+	inputVelocity = { 0.0f, 0.0f, 0.0f }; // Reset input velocity after applying movement
+
 	if (Keyboard_IsKeyDown(KK_A))
 	{
 		inputVelocity.x += -1.0f;
@@ -33,7 +35,10 @@ void Player::HandleInput()
 	else
 		SetState(PlayerState::IDLE);
 
-
+	if (Keyboard_IsKeyTrigger(KK_SPACE))
+	{
+		SetState(PlayerState::DASHING);
+	}
 }
 
 void Player::Update()
@@ -45,42 +50,51 @@ void Player::Update()
 
 	if (inputVelocity.x != 0.0f || inputVelocity.z != 0.0f)
 	{
-		//if (currentState == PlayerState::MOVING)
-		//{
-		//
-		//	float inputRotation = atan2f(-inputVelocity.x, -inputVelocity.z);
-		//
-		//	if (inputRotation != m_Transform.GetRotationEuler().y)
-		//	{
-		//		Vector3 buffer = m_Transform.GetRotationEuler();
-		//		buffer.y = std::fmod(buffer.y, TWO_PI);
-		//
-		//		if (buffer.y > PI)
-		//		{
-		//			buffer.y -= TWO_PI;
-		//		}
-		//		else if (buffer.y < -PI)
-		//		{
-		//			buffer.y += TWO_PI;
-		//		}
-		//
-		//		float rotationDiff = inputRotation - buffer.y;
-		//		if (rotationDiff > PI)
-		//			rotationDiff -= TWO_PI;
-		//		else if (rotationDiff < -PI)
-		//			rotationDiff += TWO_PI;
-		//		float rotationStep = 10 /* * deltaTime*/;
-		//		if (abs(rotationDiff) <= rotationStep)
-		//			buffer.y = inputRotation;
-		//		else
-		//			buffer.y += (rotationDiff > 0.0f ? rotationStep : -rotationStep);
-		//
-		//		m_Transform.SetRotationEuler(buffer);
-		//	}
-		//}
+		if (currentState == PlayerState::MOVING)
+		{
+
+			float inputRotation = atan2f(-inputVelocity.x, -inputVelocity.z);
+
+			if (inputRotation != m_Transform.GetRotationEuler().y)
+			{
+				Vector3 buffer = m_Transform.GetRotationEuler();
+				buffer.y = std::fmod(buffer.y, TWO_PI);
+
+				if (buffer.y > PI)
+				{
+					buffer.y -= TWO_PI;
+				}
+				else if (buffer.y < -PI)
+				{
+					buffer.y += TWO_PI;
+				}
+
+				float rotationDiff = inputRotation - buffer.y;
+				if (rotationDiff > PI)
+					rotationDiff -= TWO_PI;
+				else if (rotationDiff < -PI)
+					rotationDiff += TWO_PI;
+				float rotationStep = 10 * deltaTime;
+				if (abs(rotationDiff) <= rotationStep)
+					buffer.y = inputRotation;
+				else
+					buffer.y += (rotationDiff > 0.0f ? rotationStep : -rotationStep);
+
+				m_Transform.SetRotationEuler(buffer);
+			}
+
+		}
+
+
+
 		velocity.x += inputVelocity.x * moveSpeed * deltaTime;
 		velocity.z += inputVelocity.z * moveSpeed * deltaTime;
-		inputVelocity = { 0.0f, 0.0f, 0.0f }; // Reset input velocity after applying movement
+	}
+
+	if (currentState == PlayerState::DASHING)
+	{
+		velocity.x = cos(m_Transform.GetRotationEuler().y + PI/2) * 500.f;
+		velocity.z = sin(m_Transform.GetRotationEuler().y - PI/2) * 500.f;
 	}
 
 	if (velocity.x != 0.0f || velocity.z != 0.0f)
