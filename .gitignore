@@ -8,3 +8,5 @@
 /.vs
 /shaderPixel3D.cso
 /shaderVertex3D.cso
+/.idea
+/CMakeLists.txt

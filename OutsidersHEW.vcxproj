@@ -148,6 +148,8 @@
     <ClCompile Include="src\object\GameObject.cpp" />
     <ClCompile Include="src\object\Projectile.cpp" />
     <ClCompile Include="src\object\Player.cpp" />
+    <ClCompile Include="src\physics\Collider.cpp" />
+    <ClCompile Include="src\physics\Colliders_Impl.cpp" />
     <ClCompile Include="src\render\DirectX.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\core\Keyboard.cpp" />
@@ -246,6 +248,7 @@
     <ClInclude Include="src\object\Enemy.h" />
     <ClInclude Include="src\object\Field.h" />
     <ClInclude Include="src\object\Player.h" />
+    <ClInclude Include="src\physics\Collider.hpp" />
     <ClInclude Include="src\render\DirectX.h" />
     <ClInclude Include="extern\DirectXTex.h" />
     <ClInclude Include="src\Game.h" />
