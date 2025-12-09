@@ -1,7 +1,6 @@
-//
+﻿//
 // Created by zyzyz on 2025/12/05.
 //
-
 #include "Collider.hpp"
 #include <algorithm>
 #include <cmath>
@@ -84,7 +83,7 @@ namespace {
         float s, t;
         float eps = GetPhysicsConfig().epsilon;
         if (a <= eps && e <= eps) {
-            // both degenerate
+            // 両方とも退化
             if (outS) *outS = 0.0f;
             if (outT) *outT = 0.0f;
             if (outC1) *outC1 = XMFLOAT3{XMVectorGetX(P1), XMVectorGetY(P1), XMVectorGetZ(P1)};
@@ -286,11 +285,11 @@ namespace {
             }
             return true;
         };
-        // A's face axes
+        // Aの面法線軸
         if (!testAxis(a[0], tA[0], EA.x, EB.x * AbsR[0][0] + EB.y * AbsR[0][1] + EB.z * AbsR[0][2])) return info;
         if (!testAxis(a[1], tA[1], EA.y, EB.x * AbsR[1][0] + EB.y * AbsR[1][1] + EB.z * AbsR[1][2])) return info;
         if (!testAxis(a[2], tA[2], EA.z, EB.x * AbsR[2][0] + EB.y * AbsR[2][1] + EB.z * AbsR[2][2])) return info;
-        // B's face axes
+        // Bの面法線軸
         float tB0 = tA[0] * R[0][0] + tA[1] * R[1][0] + tA[2] * R[2][0];
         float tB1 = tA[0] * R[0][1] + tA[1] * R[1][1] + tA[2] * R[2][1];
         float tB2 = tA[0] * R[0][2] + tA[1] * R[1][2] + tA[2] * R[2][2];
@@ -304,7 +303,7 @@ namespace {
                 XMVECTOR ai = Load3(a[i]);
                 XMVECTOR bj = Load3(b[j]);
                 XMVECTOR axv = XMVector3Cross(ai, bj);
-                // skip near-zero axis
+                // ゼロに近い軸をスキップ
                 XMVECTOR nrm = XMVector3Normalize(axv);
                 float len2 = XMVectorGetX(XMVector3Dot(axv, axv));
                 if (len2 < 1e-8f) continue;
@@ -324,7 +323,7 @@ namespace {
 
     inline XMFLOAT3 SupportPointOnObb(const XMFLOAT3 &center, const XMFLOAT3 axes[3], const XMFLOAT3 &he,
                                       const XMFLOAT3 &dir) {
-        // 返回 OBB 在方向 dir 上的最?点
+        // dir方向のサポートポイント
         XMVECTOR D = Load3(dir);
         XMFLOAT3 o = center;
         float s0 = XMVectorGetX(XMVector3Dot(D, Load3(axes[0]))) >= 0 ? 1.f : -1.f;
@@ -340,10 +339,10 @@ namespace {
         return XMFLOAT3{ClampToExtent(p.x, he.x), ClampToExtent(p.y, he.y), ClampToExtent(p.z, he.z)};
     }
 
-    // ?段与 AABB 最近点?（全部在 OBB 局部空?）；返回最小距?平方，同??出最近点
+    // セグメントと AABB 最近点計算（全てOBBローカル空間で実行）；最小距離の二乗を返し、同時に最近点を出力
     inline float ClosestPtSegmentAabbLocal(const XMFLOAT3 &p0, const XMFLOAT3 &p1, const XMFLOAT3 &he,
                                            XMFLOAT3 &outSeg, XMFLOAT3 &outBox) {
-        // 候?集：t=0,1 以及与?个平面的交点 t（若在[0,1]）
+        // 候補集合：t=0,1 および各平面との交点 t（[0,1]内にある場合）
         XMFLOAT3 d{p1.x - p0.x, p1.y - p0.y, p1.z - p0.z};
         float bestD2 = std::numeric_limits<float>::infinity();
         auto evalT = [&](float t) {
@@ -414,7 +413,8 @@ static bool IntersectObbObbPublic(const ObbCollider &A, const ObbCollider &B) {
 }
 
 static bool IntersectObbCapsule(const ObbCollider &B, const CapsuleCollider &C) {
-    // 将?段??到 OBB 的局部空?：pL = [ dot(p - Cb, axis_i) ]
+    // セグメントを OBB の局所空間に変換：pL = [ dot(p - Cb, axis_i) ]
+    
     XMFLOAT3 axes[3];
     B.axesWorld(axes);
     XMFLOAT3 cB = B.centerWorld();
@@ -448,7 +448,7 @@ static bool IntersectCapsuleCapsule(const CapsuleCollider &A, const CapsuleColli
 bool Intersect(const ColliderBase &A, const ColliderBase &B) {
     ColliderType ta = A.kind();
     ColliderType tb = B.kind();
-    // 上三角分?，必要?交?
+    // 上三角部分のみ計算、必要に応じて交差判定を入れ替え
     auto swapAB = [&]() { return Intersect(B, A); };
     switch (ta) {
         case ColliderType::Sphere:
@@ -467,7 +467,7 @@ bool Intersect(const ColliderBase &A, const ColliderBase &B) {
         case ColliderType::Obb:
             switch (tb) {
                 case ColliderType::Sphere:
-                    // ?称
+                    // 対称
                     return IntersectSphereObb(static_cast<const SphereCollider &>(B),
                                               static_cast<const ObbCollider &>(A));
                 case ColliderType::Obb:
@@ -536,8 +536,8 @@ static void ComputeSphereObb(const SphereCollider &S, const ObbCollider &B, Over
         out.pointOnB = q;
         out.normal = n;
     } else {
-        // 球心在盒内：从 OBB 局部找最近面
-        // 局部坐? u = dot(cs - cB, axis)
+        // 球心がボックス内：OBBローカルで最近面を見つける
+        // ローカル座標 u = dot(cs - cB, axis)
         XMVECTOR dV = XMVectorSubtract(Load3(cs), Load3(cB));
         float u[3] = {
             XMVectorGetX(XMVector3Dot(dV, Load3(axes[0]))),
@@ -560,8 +560,8 @@ static void ComputeSphereObb(const SphereCollider &S, const ObbCollider &B, Over
 
 static void ComputeSphereCapsule(const SphereCollider &S, const CapsuleCollider &C, OverlapResult &out) {
     auto seg = C.segmentWorld();
-    // 最近点 q 在?段上
-    // 重用 DistPointSegmentSq 但自己求 q
+    // 最近点 q が線分上にある
+    // DistPointSegmentSq を再利用するが、自分で q を求める
     XMVECTOR P = Load3(S.centerWorld());
     XMVECTOR A = Load3(seg.first);
     XMVECTOR Bv = Load3(seg.second);
@@ -610,14 +610,14 @@ static void ComputeObbObb(const ObbCollider &A, const ObbCollider &B, OverlapRes
     SatInfo si = ObbObbSatWithAxis(A, B);
     out.intersects = si.intersects;
     if (!si.intersects) return;
-    // 法?方向?从 A 指向 B
+    // 法線方向は A から B へ向かう
     XMVECTOR dC = XMVectorSubtract(Load3(B.centerWorld()), Load3(A.centerWorld()));
     XMVECTOR nV = Load3(si.axis);
     float sign = XMVectorGetX(XMVector3Dot(dC, nV)) >= 0 ? 1.0f : -1.0f;
     XMFLOAT3 n = XMFLOAT3{si.axis.x * sign, si.axis.y * sign, si.axis.z * sign};
     out.normal = n;
     out.penetration = si.penetration;
-    // 近似接触点：用支持点
+    // 近似接触点：サポートポイントを使用
     XMFLOAT3 axesA[3];
     A.axesWorld(axesA);
     XMFLOAT3 axesB[3];
@@ -646,7 +646,7 @@ static void ComputeObbObb(const ObbCollider &A, const ObbCollider &B, OverlapRes
 }
 
 static void ComputeObbCapsule(const ObbCollider &B, const CapsuleCollider &C, OverlapResult &out) {
-    // 在 OBB 局部做最近点
+    // OBBの局所空間で最近点を計算
     XMFLOAT3 axes[3];
     B.axesWorld(axes);
     XMFLOAT3 cB = B.centerWorld();
@@ -682,8 +682,8 @@ static void ComputeObbCapsule(const ObbCollider &B, const CapsuleCollider &C, Ov
     XMFLOAT3 n{1, 0, 0};
     if (d > GetPhysicsConfig().epsilon) XMStoreFloat3(&n, XMVectorScale(diff, 1.0f / d));
     else {
-        // 使用指向最近面的法?
-        XMFLOAT3 u = pL; // 近似使用段点局部位置
+        // 最近面を指す法線を使用
+        XMFLOAT3 u = pL; // 近似でセグメント点のローカル位置を使用
         float ex[3] = {he.x - std::fabs(u.x), he.y - std::fabs(u.y), he.z - std::fabs(u.z)};
         int k = 0;
         if (ex[1] < ex[k]) k = 1;
@@ -699,7 +699,7 @@ static void ComputeObbCapsule(const ObbCollider &B, const CapsuleCollider &C, Ov
 }
 
 bool Intersect(const ColliderBase &A, const ColliderBase &B, OverlapResult &out) {
-    out = OverlapResult{}; // 清零
+    out = OverlapResult{}; // ゼロ初期化
     ColliderType ta = A.kind();
     ColliderType tb = B.kind();
     switch (ta) {
@@ -723,7 +723,7 @@ bool Intersect(const ColliderBase &A, const ColliderBase &B, OverlapResult &out)
                 case ColliderType::Sphere:
                     ComputeSphereObb(static_cast<const SphereCollider &>(B), static_cast<const ObbCollider &>(A), out);
                     if (out.intersects) {
-                        // 方向需要从 A->B，当前?算的是 Sphere vs Obb，把法?取反
+                        // 方向は A->B からなので、現在は Sphere vs Obb のため法線を反転
                         out.normal = XMFLOAT3{-out.normal.x, -out.normal.y, -out.normal.z};
                         std::swap(out.pointOnA, out.pointOnB);
                     }

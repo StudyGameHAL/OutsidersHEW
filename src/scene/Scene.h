@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "object/GameObject.h"
 #include <list>
 #include <typeinfo>

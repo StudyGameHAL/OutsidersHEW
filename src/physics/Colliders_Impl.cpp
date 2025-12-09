@@ -1,7 +1,6 @@
-//
+﻿//
 // Created by zyzyz on 2025/12/05.
 //
-
 #include "Collider.hpp"
 #include "core/Transform.h"
 #include <cmath>
@@ -29,7 +28,7 @@ namespace {
 
         ColliderType kind() const override { return ColliderType::Sphere; }
 
-        // ローカルオフセ�?ト�?Ownerに対する相対?�?
+        // ローカルオフセット：Ownerに対する相対位置
         bool setPosition(const XMFLOAT3 &pos) override {
             m_localOffset = pos;
             return true;
@@ -52,13 +51,13 @@ namespace {
         XMFLOAT3 rotationEuler() const override { return m_localRot; }
         XMFLOAT3 scale() const override { return m_scl; }
 
-        // Ownerワールド姿勢 + ローカルオフセ�?�?/回転を�?み合わ�?
+        // Ownerワールド姿勢 + ローカルオフセット/回転を組み合わせ
         XMMATRIX world() const override {
             XMMATRIX S = XMMatrixScaling(m_scl.x, m_scl.y, m_scl.z);
             XMMATRIX Rowner = XMMatrixRotationRollPitchYaw(m_ownerRot.x, m_ownerRot.y, m_ownerRot.z);
             XMMATRIX Rlocal = XMMatrixRotationRollPitchYaw(m_localRot.x, m_localRot.y, m_localRot.z);
             XMMATRIX R = Rlocal * Rowner; // 先にローカル、次にOwnerに従う
-            // ワールド中�? = ownerPos + Rowner * localOffset?�?Sphereは回転に対して不感、オフセ�?ト�?�みに使用?�?
+            // ワールド中心 = ownerPos + Rowner * localOffset（Sphereは回転に対して不感、オフセットのみに使用）
             XMVECTOR off = XMVectorSet(m_localOffset.x, m_localOffset.y, m_localOffset.z, 0);
             off = XMVector3TransformNormal(off, Rowner);
             XMFLOAT3 centerW{m_ownerPos.x, m_ownerPos.y, m_ownerPos.z};
@@ -93,7 +92,7 @@ namespace {
         void setIsTrigger(bool trigger) override { m_isTrigger = trigger; }
         bool isTrigger() const override { return m_isTrigger; }
 
-        // Sphere specifics
+        // Sphere固有メソッド
         float radiusLocal() const override { return m_radiusLocal; }
         float radiusWorld() const override { return m_radiusLocal * m_scl.x; }
 
@@ -118,7 +117,7 @@ namespace {
         // Ownerワールド姿勢
         XMFLOAT3 m_ownerPos{0, 0, 0};
         XMFLOAT3 m_ownerRot{0, 0, 0};
-        // ローカルオフセ�?�?/回転?�?Ownerに対する相対?�?
+        // ローカルオフセット/回転：Ownerに対する相対位置
         XMFLOAT3 m_localOffset{0, 0, 0};
         XMFLOAT3 m_localRot{0, 0, 0};
         XMFLOAT3 m_scl{1, 1, 1};
@@ -174,12 +173,12 @@ namespace {
         bool updateDerived() override { return true; }
 
         Aabb aabb() const override {
-            // Use centerW and axesW with halfExtentsW to compute world-space AABB
+            // ワールド中心と軸と半範囲を使用してワールド空間軸平行境界ボックスを計算
             XMFLOAT3 center = centerWorld();
             XMFLOAT3 heW = halfExtentsWorld();
             XMFLOAT3 axes[3];
             axesWorld(axes);
-            // extents along world axes
+            // ワールド軸に沿った範囲
             XMFLOAT3 e{};
             e.x = std::fabs(axes[0].x) * heW.x + std::fabs(axes[1].x) * heW.y + std::fabs(axes[2].x) * heW.z;
             e.y = std::fabs(axes[0].y) * heW.x + std::fabs(axes[1].y) * heW.y + std::fabs(axes[2].y) * heW.z;
@@ -205,13 +204,13 @@ namespace {
         void setIsTrigger(bool trigger) override { m_isTrigger = trigger; }
         bool isTrigger() const override { return m_isTrigger; }
 
-        // Owner 世界位姿注入/读�?
+        // Ownerワールド姿勢の注入/読み取り
         void setOwnerWorldPosition(const XMFLOAT3 &ownerPosW) override { m_ownerPos = ownerPosW; }
         void setOwnerWorldRotationEuler(const XMFLOAT3 &ownerRotEulerW) override { m_ownerRot = ownerRotEulerW; }
         XMFLOAT3 ownerWorldPosition() const override { return m_ownerPos; }
         XMFLOAT3 ownerWorldRotationEuler() const override { return m_ownerRot; }
 
-        // OBB specifics
+        // OBB固有メソッド
         XMFLOAT3 centerWorld() const override {
             XMMATRIX Rowner = XMMatrixRotationRollPitchYaw(m_ownerRot.x, m_ownerRot.y, m_ownerRot.z);
             XMVECTOR off = XMVectorSet(m_localOffset.x, m_localOffset.y, m_localOffset.z, 0);
@@ -227,7 +226,7 @@ namespace {
             XMMATRIX Rowner = XMMatrixRotationRollPitchYaw(m_ownerRot.x, m_ownerRot.y, m_ownerRot.z);
             XMMATRIX Rlocal = XMMatrixRotationRollPitchYaw(m_localRot.x, m_localRot.y, m_localRot.z);
             XMMATRIX R = Rlocal * Rowner;
-            // Transform unit basis to get world-space orientation (ignoring scale and translation)
+            // 単位基底を変換してワールド空間の向き取得（スケールと移動を無視）
             XMVECTOR x = XMVector3TransformNormal(XMVectorSet(1, 0, 0, 0), R);
             XMVECTOR y = XMVector3TransformNormal(XMVectorSet(0, 1, 0, 0), R);
             XMVECTOR z = XMVector3TransformNormal(XMVectorSet(0, 0, 1, 0), R);
@@ -275,11 +274,11 @@ namespace {
             return true;
         }
 
-        // 簡略化された制�??��任意�?�2つのscale成�??が等し�?ことのみ要求（半�?方向として?�?
+        // 簡略化された制約：任意の2つのスケール成分が等しいことのみ要求（半径方向として）
         bool setScale(const XMFLOAT3 &scale) override {
             if (scale.x <= 0 || scale.y <= 0 || scale.z <= 0) return false;
             const float eps = GetPhysicsConfig().epsilon;
-            // 1つの軸が独立（長軸?��、他�?�2つは等しくなければならな�??��半�??�?
+            // 1つの軸が独立（長軸）、他の2つは等しくなければならない（半径）
             bool valid = NearlyEqual(scale.x, scale.y, eps) ||
                          NearlyEqual(scale.y, scale.z, eps) ||
                          NearlyEqual(scale.x, scale.z, eps);
@@ -333,13 +332,13 @@ namespace {
         void setIsTrigger(bool trigger) override { m_isTrigger = trigger; }
         bool isTrigger() const override { return m_isTrigger; }
 
-        // Owner 世界位姿注入/读�?
+        // Ownerワールド姿勢の注入/読み取り
         void setOwnerWorldPosition(const XMFLOAT3 &ownerPosW) override { m_ownerPos = ownerPosW; }
         void setOwnerWorldRotationEuler(const XMFLOAT3 &ownerRotEulerW) override { m_ownerRot = ownerRotEulerW; }
         XMFLOAT3 ownerWorldPosition() const override { return m_ownerPos; }
         XMFLOAT3 ownerWorldRotationEuler() const override { return m_ownerRot; }
 
-        // Capsule specifics
+        // Capsule固有メソッド
         std::pair<XMFLOAT3, XMFLOAT3> segmentWorld() const override {
             XMMATRIX S = XMMatrixScaling(m_scl.x, m_scl.y, m_scl.z);
             XMMATRIX Rowner = XMMatrixRotationRollPitchYaw(m_ownerRot.x, m_ownerRot.y, m_ownerRot.z);
@@ -364,12 +363,12 @@ namespace {
         }
 
         float radiusWorld() const override {
-            // 选择半�?方向缩放?��与长轴正交�?等比尺度?�?
+            // 半径方向縮放を選択：長軸と正交する等比尺度
             XMFLOAT3 axis = localAxisUnit();
             float ax = std::fabs(axis.x), ay = std::fabs(axis.y), az = std::fabs(axis.z);
-            float rScale = m_scl.x; // default
+            float rScale = m_scl.x; // デフォルト
             if (ax >= ay && ax >= az) {
-                // long axis ~ X, radial uses Y/Z (相等已在 setScale 校�?)
+                // 長軸 ~ X、径方向はY/Zを使用 (等価性はsetScaleメソッドで検証済み)
                 rScale = m_scl.y; // == m_scl.z
             } else if (ay >= ax && ay >= az) {
                 rScale = m_scl.x; // == m_scl.z

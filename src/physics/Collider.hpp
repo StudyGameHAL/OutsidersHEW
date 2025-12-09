@@ -1,7 +1,6 @@
-//
+ï»¿//
 // Created by zyzyz on 2025/12/05.
 //
-
 #ifndef OUTSIDERSHEW_COLLIDER_HPP
 #define OUTSIDERSHEW_COLLIDER_HPP
 #include <DirectXMath.h>
@@ -17,55 +16,55 @@ struct Aabb {
 };
 
 struct OverlapResult {
-    bool intersects = false; // ‰Šú‚Íƒu[ƒ‹’l‚Ì‚İg—pGŒã‚É[“x/–@ü/ÚG“_‚ğŠg’£
+    bool intersects = false; // åˆæœŸã¯ãƒ–ãƒ¼ãƒ«å€¤ã®ã¿ä½¿ç”¨ï¼›å¾Œã«æ·±åº¦/æ³•ç·š/æ¥è§¦ç‚¹ã‚’æ‹¡å¼µ
     float penetration = 0.0f;
     DirectX::XMFLOAT3 normal{0, 0, 0};
     DirectX::XMFLOAT3 pointOnA{0, 0, 0};
     DirectX::XMFLOAT3 pointOnB{0, 0, 0};
 };
 
-// ƒOƒ[ƒoƒ‹”’l¸“xİ’èiŒÅ’è‚¾‚ª’²®‰Â”\j
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«æ•°å€¤ç²¾åº¦è¨­å®šï¼ˆå›ºå®šã ãŒèª¿æ•´å¯èƒ½ï¼‰
 struct PhysicsConfig {
     float epsilon = 1e-5f;
 };
 
-// ƒOƒ[ƒoƒ‹PhysicsConfig‚Ìæ“¾/İ’èiéŒ¾‚Ì‚İAÀ‘•‚Í.cpp“àj
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«PhysicsConfigã®å–å¾—/è¨­å®šï¼ˆå®£è¨€ã®ã¿ã€å®Ÿè£…ã¯.cppå†…ï¼‰
 const PhysicsConfig &GetPhysicsConfig();
 
 void SetPhysicsEpsilon(float e);
 
-// Šî’êƒNƒ‰ƒXƒCƒ“ƒ^[ƒtƒF[ƒXFŒ_–ñ‚Ì‚İ’è‹`AƒXƒgƒŒ[ƒW‚Í’ñ‹Ÿ‚µ‚È‚¢
+// åŸºåº•ã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ï¼šå¥‘ç´„ã®ã¿å®šç¾©ã€ã‚¹ãƒˆãƒ¬ãƒ¼ã‚¸ã¯æä¾›ã—ãªã„
 class ColliderBase {
 public:
     virtual ~ColliderBase() = default;
 
-    // Œ^ƒNƒGƒŠ
+    // å‹ã‚¯ã‚¨ãƒª
     virtual ColliderType kind() const = 0;
 
-    // •ÏŠ·Fƒ[ƒJƒ‹ƒIƒtƒZƒbƒgˆÊ’u/ƒ[ƒJƒ‹ƒIƒtƒZƒbƒg‰ñ“]iƒIƒCƒ‰[j/ƒXƒP[ƒ‹B§–ñˆá”½‚Ífalse‚ğ•Ô‚µA“à•”ó‘Ô‚ğ•ÏX‚µ‚È‚¢B
-    // ’ˆÓFsetPosition/setRotationEuler‚ÌƒZƒ}ƒ“ƒeƒBƒNƒX‚Íyƒ[ƒJƒ‹ƒIƒtƒZƒbƒgz‚É•ÏXÏ‚İAƒ[ƒ‹ƒh‚Å‚Í‚È‚¢I
+    // å¤‰æ›ï¼šãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ•ã‚»ãƒƒãƒˆä½ç½®/ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ•ã‚»ãƒƒãƒˆå›è»¢ï¼ˆã‚ªã‚¤ãƒ©ãƒ¼ï¼‰/ã‚¹ã‚±ãƒ¼ãƒ«ã€‚åˆ¶ç´„é•åæ™‚ã¯falseã‚’è¿”ã—ã€å†…éƒ¨çŠ¶æ…‹ã‚’å¤‰æ›´ã—ãªã„ã€‚
+    // æ³¨æ„ï¼šsetPosition/setRotationEulerã®ã‚»ãƒãƒ³ãƒ†ã‚£ã‚¯ã‚¹ã¯ã€ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ•ã‚»ãƒƒãƒˆã€‘ã«å¤‰æ›´æ¸ˆã¿ã€ãƒ¯ãƒ¼ãƒ«ãƒ‰ã§ã¯ãªã„ï¼
     virtual bool setPosition(const DirectX::XMFLOAT3 &posLocalOffset) = 0;
 
-    virtual bool setRotationEuler(const DirectX::XMFLOAT3 &rotEulerLocalOffset) = 0; // pitch, yaw, rolliƒ‰ƒWƒAƒ“j
+    virtual bool setRotationEuler(const DirectX::XMFLOAT3 &rotEulerLocalOffset) = 0; // pitch, yaw, rollï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰
     virtual bool setScale(const DirectX::XMFLOAT3 &scale) = 0;
 
-    // Œ»İ‚Ìƒ[ƒJƒ‹ƒIƒtƒZƒbƒgTRS‚ğ“Ç‚İæ‚èiƒ[ƒ‹ƒh‚Å‚Í‚È‚¢j
+    // ç¾åœ¨ã®ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ•ã‚»ãƒƒãƒˆTRSã‚’èª­ã¿å–ã‚Šï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰ã§ã¯ãªã„ï¼‰
     virtual DirectX::XMFLOAT3 position() const = 0;
 
     virtual DirectX::XMFLOAT3 rotationEuler() const = 0;
 
     virtual DirectX::XMFLOAT3 scale() const = 0;
 
-    // ƒ[ƒ‹ƒhs—ñiS*R*TjAƒŒƒ“ƒ_ƒŠƒ“ƒO/ƒfƒoƒbƒO—pGÀ‘•‘¤‚Í’x‰„XV‚Ü‚½‚Í‘¦À\’z‚ğ‘I‘ğ‰Â”\
+    // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ï¼ˆS*R*Tï¼‰ã€ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°/ãƒ‡ãƒãƒƒã‚°ç”¨ï¼›å®Ÿè£…å´ã¯é…å»¶æ›´æ–°ã¾ãŸã¯å³åº§æ§‹ç¯‰ã‚’é¸æŠå¯èƒ½
     virtual DirectX::XMMATRIX world() const = 0;
 
-    // ”h¶ƒf[ƒ^XViAABB/ƒ[ƒ‹ƒhƒpƒ‰ƒ[ƒ^‚È‚Ç‚ğXVjB“à•”ó‘Ô‚ª•s³‚Èê‡iƒXƒP[ƒ‹•sˆê’v‚È‚Çj‚Ífalse‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB
+    // æ´¾ç”Ÿãƒ‡ãƒ¼ã‚¿æ›´æ–°ï¼ˆAABB/ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãªã©ã‚’æ›´æ–°ï¼‰ã€‚å†…éƒ¨çŠ¶æ…‹ãŒä¸æ­£ãªå ´åˆï¼ˆã‚¹ã‚±ãƒ¼ãƒ«ä¸ä¸€è‡´ãªã©ï¼‰ã¯falseã‚’è¿”ã™ã“ã¨ãŒã§ãã‚‹ã€‚
     virtual bool updateDerived() = 0;
 
-    // AABBiƒ[ƒ‹ƒh‹óŠÔAƒLƒƒƒbƒVƒ…‚Ü‚½‚Í‘¦ÀŒvZ‚Ç‚¿‚ç‚Å‚à‰Âj
+    // AABBï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã¾ãŸã¯å³åº§è¨ˆç®—ã©ã¡ã‚‰ã§ã‚‚å¯ï¼‰
     virtual Aabb aabb() const = 0;
 
-    // DebugDraw§ŒäiŠeƒRƒ‰ƒCƒ_[“Æ—§‚µ‚½F‚ÆƒIƒ“/ƒIƒtj
+    // DebugDrawåˆ¶å¾¡ï¼ˆå„ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ç‹¬ç«‹ã—ãŸè‰²ã¨ã‚ªãƒ³/ã‚ªãƒ•ï¼‰
     virtual void setDebugEnabled(bool enabled) = 0;
 
     virtual bool debugEnabled() const = 0;
@@ -74,21 +73,21 @@ public:
 
     virtual DirectX::XMFLOAT4 debugColor() const = 0;
 
-    // ƒoƒCƒ“ƒhƒIƒtƒZƒbƒgiƒoƒCƒ“ƒh‚³‚ê‚½GameObject‚ÌQÆ•ÏŠ·“_‚É‘Î‚·‚éˆÊ’uƒIƒtƒZƒbƒgAƒfƒtƒHƒ‹ƒg{0,0,0}j
-    // —p“rF1‚Â‚ÌGameObject‚É•¡”‚ÌƒRƒ‰ƒCƒ_[‚ğƒoƒCƒ“ƒh‚·‚éÛAŠeƒRƒ‰ƒCƒ_[‚Ìå‘Ì‚É‘Î‚·‚éˆÊ’uƒIƒtƒZƒbƒg‚ğ‰i‘±‹L˜^‚µA
-    //      “¯Šú/ƒVƒŠƒAƒ‰ƒCƒYƒvƒƒZƒX’†‚É’†S·‚ª¸‚í‚ê‚ÄƒŒƒCƒAƒEƒg‚ğ•œŒ³‚Å‚«‚È‚­‚È‚é‚±‚Æ‚ğ–h‚®B
-    // à–¾F‚±‚ÌƒIƒtƒZƒbƒg‚Íworld()‚ÌŒvZ•û–@‚É‹­§‚³‚ê‚¸AãˆÊ‘wiƒGƒ“ƒeƒBƒeƒB/“¯ŠúŠíj‚ª•K—v‚É‰‚¶‚Ä‘g‚İ‡‚í‚¹‚Äg—p‚·‚éB
+    // ãƒã‚¤ãƒ³ãƒ‰ã‚ªãƒ•ã‚»ãƒƒãƒˆï¼ˆãƒã‚¤ãƒ³ãƒ‰ã•ã‚ŒãŸGameObjectã®å‚ç…§å¤‰æ›ç‚¹ã«å¯¾ã™ã‚‹ä½ç½®ã‚ªãƒ•ã‚»ãƒƒãƒˆã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ{0,0,0}ï¼‰
+    // ç”¨é€”ï¼š1ã¤ã®GameObjectã«è¤‡æ•°ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ãƒã‚¤ãƒ³ãƒ‰ã™ã‚‹éš›ã€å„ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ä¸»ä½“ã«å¯¾ã™ã‚‹ä½ç½®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’æ°¸ç¶šè¨˜éŒ²ã—ã€
+    //      åŒæœŸ/ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºãƒ—ãƒ­ã‚»ã‚¹ä¸­ã«ä¸­å¿ƒå·®ãŒå¤±ã‚ã‚Œã¦ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’å¾©å…ƒã§ããªããªã‚‹ã“ã¨ã‚’é˜²ãã€‚
+    // èª¬æ˜ï¼šã“ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã¯world()ã®è¨ˆç®—æ–¹æ³•ã«å¼·åˆ¶ã•ã‚Œãšã€ä¸Šä½å±¤ï¼ˆã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£/åŒæœŸå™¨ï¼‰ãŒå¿…è¦ã«å¿œã˜ã¦çµ„ã¿åˆã‚ã›ã¦ä½¿ç”¨ã™ã‚‹ã€‚
     virtual bool setOwnerOffset(const DirectX::XMFLOAT3 &offset) = 0;
 
     virtual DirectX::XMFLOAT3 ownerOffset() const = 0;
 
-    // Triggerƒtƒ‰ƒOFtrigger‚Æ‚µ‚Äƒ}[ƒN‚³‚ê‚½ƒRƒ‰ƒCƒ_[‚ÍƒCƒxƒ“ƒg”­“®‚Ì‚İ‚Ég—p‚³‚êA•¨—Õ“Ë‰“š‚Í¶¬‚µ‚È‚¢
+    // Triggerãƒ•ãƒ©ã‚°ï¼štriggerã¨ã—ã¦ãƒãƒ¼ã‚¯ã•ã‚ŒãŸã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¯ã‚¤ãƒ™ãƒ³ãƒˆç™ºå‹•ã®ã¿ã«ä½¿ç”¨ã•ã‚Œã€ç‰©ç†è¡çªå¿œç­”ã¯ç”Ÿæˆã—ãªã„
     virtual void setIsTrigger(bool trigger) = 0;
 
     virtual bool isTrigger() const = 0;
 
-    // ?? V‹K’Ç‰ÁFOwnerƒ[ƒ‹ƒhp¨‚Ì’“ü/“Ç‚İæ‚è ??
-    // ãˆÊ‘w‚Í–ˆƒtƒŒ[ƒ€‚±‚ê‚ç‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğŒÄ‚Ño‚µ‚ÄOwnerƒ[ƒ‹ƒhp¨‚ğCollider‚É‘‚«‚Ş‚×‚«iŠi”[‚Ì‚İAŠ—LŒ ‚È‚µjB
+    //  æ–°è¦è¿½åŠ ï¼šOwnerãƒ¯ãƒ¼ãƒ«ãƒ‰å§¿å‹¢ã®æ³¨å…¥/èª­ã¿å–ã‚Š
+    // ä¸Šä½å±¤ã¯æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã“ã‚Œã‚‰ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦Ownerãƒ¯ãƒ¼ãƒ«ãƒ‰å§¿å‹¢ã‚’Colliderã«æ›¸ãè¾¼ã‚€ã¹ãï¼ˆæ ¼ç´ã®ã¿ã€æ‰€æœ‰æ¨©ãªã—ï¼‰ã€‚
     virtual void setOwnerWorldPosition(const DirectX::XMFLOAT3 &ownerPosW) = 0;
 
     virtual void setOwnerWorldRotationEuler(const DirectX::XMFLOAT3 &ownerRotEulerW) = 0;
@@ -98,10 +97,10 @@ public:
     virtual DirectX::XMFLOAT3 ownerWorldRotationEuler() const = 0;
 };
 
-// SphereFƒ[ƒJƒ‹ƒpƒ‰ƒ[ƒ^‚ÍcenterLocaliƒIƒvƒVƒ‡ƒ“j+ radiusLocalGƒ[ƒ‹ƒh”¼Œa=radiusLocal*uniformScale
+// Sphereï¼šãƒ­ãƒ¼ã‚«ãƒ«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã¯centerLocalï¼ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼‰+ radiusLocalï¼›ãƒ¯ãƒ¼ãƒ«ãƒ‰åŠå¾„=radiusLocal*uniformScale
 class SphereCollider : public ColliderBase {
 public:
-    // ƒAƒNƒZƒbƒT[i“Ç‚İæ‚èê—pj
+    // ã‚¢ã‚¯ã‚»ãƒƒã‚µãƒ¼ï¼ˆèª­ã¿å–ã‚Šå°‚ç”¨ï¼‰
     virtual float radiusLocal() const = 0;
 
     virtual float radiusWorld() const = 0;
@@ -109,28 +108,28 @@ public:
     virtual DirectX::XMFLOAT3 centerWorld() const = 0;
 };
 
-// OBBFƒ[ƒJƒ‹ƒpƒ‰ƒ[ƒ^ center + halfExtentsGƒ[ƒ‹ƒh”h¶FcenterW, axesW[3], halfExtentsW
+// OBBï¼šãƒ­ãƒ¼ã‚«ãƒ«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ center + halfExtentsï¼›ãƒ¯ãƒ¼ãƒ«ãƒ‰æ´¾ç”Ÿï¼šcenterW, axesW[3], halfExtentsW
 class ObbCollider : public ColliderBase {
 public:
     virtual DirectX::XMFLOAT3 centerWorld() const = 0;
 
-    virtual void axesWorld(DirectX::XMFLOAT3 outAxes[3]) const = 0; // 3‚Â‚Ì’PˆÊ²
+    virtual void axesWorld(DirectX::XMFLOAT3 outAxes[3]) const = 0; // 3ã¤ã®å˜ä½è»¸
     virtual DirectX::XMFLOAT3 halfExtentsWorld() const = 0;
 };
 
-// CapsuleFƒ[ƒJƒ‹ƒpƒ‰ƒ[ƒ^ p0, p1i’·²ü•ªj+ radiusGƒ[ƒ‹ƒh”h¶Fp0W, p1W, radiusW
+// Capsuleï¼šãƒ­ãƒ¼ã‚«ãƒ«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ p0, p1ï¼ˆé•·è»¸ç·šåˆ†ï¼‰+ radiusï¼›ãƒ¯ãƒ¼ãƒ«ãƒ‰æ´¾ç”Ÿï¼šp0W, p1W, radiusW
 class CapsuleCollider : public ColliderBase {
 public:
     virtual std::pair<DirectX::XMFLOAT3, DirectX::XMFLOAT3> segmentWorld() const = 0; // p0W, p1W
     virtual float radiusWorld() const = 0;
 };
 
-// “ˆêŒŸoƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒgiéŒ¾‚Ì‚İAÀ‘•‚Í.cpp“àj
-bool Intersect(const ColliderBase &A, const ColliderBase &B); // ‰Šúƒu[ƒ‹Œğ·
+// çµ±ä¸€æ¤œå‡ºã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆï¼ˆå®£è¨€ã®ã¿ã€å®Ÿè£…ã¯.cppå†…ï¼‰
+bool Intersect(const ColliderBase &A, const ColliderBase &B); // åˆæœŸãƒ–ãƒ¼ãƒ«äº¤å·®
 bool Intersect(const ColliderBase &A, const ColliderBase &B, OverlapResult &out);
 
 
-// ƒVƒ“ƒvƒ‹‚Èƒtƒ@ƒNƒgƒŠ[F3í—Ş‚ÌƒRƒ‰ƒCƒ_[‚ÌƒfƒtƒHƒ‹ƒgÀ‘•ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬i‘æ1’iŠK‚ÍÅ¬ŒÀ‚ÌÀ‘•‚ğ’ñ‹Ÿj
+// ã‚·ãƒ³ãƒ—ãƒ«ãªãƒ•ã‚¡ã‚¯ãƒˆãƒªãƒ¼ï¼š3ç¨®é¡ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå®Ÿè£…ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆï¼ˆç¬¬1æ®µéšã¯æœ€å°é™ã®å®Ÿè£…ã‚’æä¾›ï¼‰
 std::unique_ptr<SphereCollider> MakeSphereCollider(float radiusLocal);
 
 std::unique_ptr<ObbCollider> MakeObbCollider(const DirectX::XMFLOAT3 &halfExtentsLocal);
