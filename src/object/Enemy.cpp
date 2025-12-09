@@ -4,12 +4,12 @@
 #include "../render/Shader.h"
 #include "object/Camera.h"
 #include "object/Player.h"
+#include "object/Projectile.h"
 
-class Projectile;
 
 void Enemy::Initialize()
 {
-	m_Model = ModelLoad("asset/model/cube.fbx");
+	m_Model = ModelLoad("asset/model/BUG1.fbx");
 }
 
 void Enemy::Update()
@@ -20,12 +20,14 @@ void Enemy::Update()
 	m_AttackCount++;
 
 	// アタックするカウントになったとき
-	if (m_CountToAttack)
+	if (m_AttackCount > m_CountToAttack)
 	{
+		m_AttackCount = 0;
 		// シーンにゲームオブジェクトを追加
-		//scene->AddGameObject<Projectile>();
+		Projectile* projectile = scene->AddGameObject<Projectile>();
 
 		// プロジェクタイルに力を加える
+		projectile->SetVelocity(m_Transform.GetForwardVector() * 2.0f);
 	}
 }
 
@@ -36,7 +38,17 @@ void Enemy::Draw()
 	Matrix matrix{};
 	matrix.projection = camera->GetProjectionMatrix();
 	matrix.view = camera->GetViewMatrix();
-	matrix.world = m_Transform.GetMatrix();
+	matrix.world = XMMatrixIdentity();
+
+	
+	// model adjustments
+	matrix.world *= XMMatrixRotationX(-Math::HALF_PI);
+	matrix.world *= XMMatrixRotationY(-Math::HALF_PI * 1.0f);
+	matrix.world *= XMMatrixScaling(0.7f, 0.7f, 0.7f);
+	// model adjustments end
+
+	matrix.world *= m_Transform.GetMatrix();
+
 	SHADER.setMatrix(matrix);
 	ModelDraw(m_Model);
 }

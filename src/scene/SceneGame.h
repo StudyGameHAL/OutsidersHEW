@@ -15,7 +15,7 @@ public:
 		m_CurrentCamera = AddGameObject<Camera>();
 		m_CurrentCamera->GetTransform().SetPosition({ 0.0f, 3.0f, -8.0f });
 
-		AddGameObject<TestObject>();
+		//AddGameObject<TestObject>();
 		AddGameObject<Player>();
 		AddGameObject<Enemy>();
 		AddGameObject<Field>();

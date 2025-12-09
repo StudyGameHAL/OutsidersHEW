@@ -15,7 +15,7 @@ private:
 	MODEL* m_Model;
 
 private:
-	static constexpr int m_CountToAttack = 120;
+	static constexpr int m_CountToAttack = 25;
 public:
 	Enemy() = default;
 	virtual ~Enemy() = default;
