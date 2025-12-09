@@ -3,6 +3,7 @@
 #include "../render/model.h"
 #include "../render/Shader.h"
 #include "object/Camera.h"
+#include "Enemy.h"
 
 #define PI			(3.14159265359)
 #define TWO_PI		(2 * PI)
@@ -100,6 +101,12 @@ void Player::Update()
 
 	//prevPosition = m_Transform.;
 
+	// ===== TransformをColliderに同期 =====
+	SyncCollidersFromTransform();
+
+	// ===== 基底クラスの衝突検出を呼び出し =====
+	CheckCollisions();
+
 }
 
 void Player::Draw()
@@ -124,4 +131,31 @@ void Player::Draw()
 void Player::Initialize()
 {
 	currentModel = ModelLoad("asset/model/player.fbx");
+	this->GetTransform().SetPosition({ 0.0f, 0.0f, -2.0f });
+	// ===== Capsuleコライダーを追加 =====
+	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f },XMFLOAT3{0,1,0},1.0f);
+	AddCollider(std::move(collider));
+	SyncCollidersFromTransform();
+}
+
+// ===== 衝突コールバックのオーバーライド：Player専用ロジックを実装 =====
+bool Player::OnCollision(GameObject* other, ColliderBase* myCollider,
+	ColliderBase* otherCollider, const OverlapResult& result)
+{
+	// 敵に接触：ダメージを受ける、ロールバックしない（重なりを許可）
+	if (auto* enemy = dynamic_cast<Enemy*>(other))
+	{
+		printf("Player hit by Enemy!\n");
+		return true;  // ロールバックしない、敵との重なりを許可
+	}
+
+	// 静的オブジェクト（壁・地面）に接触：ロールバック
+	if (other->IsKinematic())
+	{
+		velocity = { 0, 0, 0 };  // 移動を停止
+		return true;  // ロールバックが必要
+	}
+
+	// その他の場合：処理なし
+	return false;
 }

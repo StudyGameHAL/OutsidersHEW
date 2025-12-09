@@ -5,11 +5,15 @@
 #include "object/Camera.h"
 #include "object/Player.h"
 #include "object/Projectile.h"
-
+#include "core/debug_ostream.h"
 
 void Enemy::Initialize()
 {
 	m_Model = ModelLoad("asset/model/BUG1.fbx");
+	
+	// ===== Capsuleコライダーを追加 =====
+	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f }, XMFLOAT3{0, 1, 0}, 0.8f);
+	AddCollider(std::move(collider));
 }
 
 void Enemy::Update()
@@ -29,6 +33,12 @@ void Enemy::Update()
 		// プロジェクタイルに力を加える
 		projectile->SetVelocity(m_Transform.GetForwardVector() * 2.0f);
 	}
+
+	// ===== TransformをColliderに同期 =====
+	SyncCollidersFromTransform();
+
+	// ===== 基底クラスの衝突検出を呼び出し =====
+	CheckCollisions();
 }
 
 void Enemy::Draw()
@@ -51,6 +61,27 @@ void Enemy::Draw()
 
 	SHADER.setMatrix(matrix);
 	ModelDraw(m_Model);
+}
+
+// ===== 衝突コールバックのオーバーライド：Enemy専用ロジックを実装 =====
+bool Enemy::OnCollision(GameObject* other, ColliderBase* myCollider,
+	ColliderBase* otherCollider, const OverlapResult& result)
+{
+	// プレイヤーに接触：ロールバック（重なりを防ぐ）
+	if (auto* player = dynamic_cast<Player*>(other))
+	{
+		hal::dout << "Enemy hit by Player!\n";
+		return true;  // ロールバックが必要
+	}
+
+	// 静的オブジェクト（壁・地面）に接触：ロールバック
+	if (other->IsKinematic())
+	{
+		return true;  // ロールバックが必要
+	}
+
+	// その他の場合：処理なし
+	return false;
 }
 
 void Enemy::ApplyRotationToPlayer()

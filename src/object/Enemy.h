@@ -28,4 +28,8 @@ public:
 protected:
 	void ApplyRotationToPlayer();
 
-};	
+	// ===== 衝突コールバックのオーバーライド：Enemy専用ロジックを実装 =====
+	bool OnCollision(GameObject* other, ColliderBase* myCollider,
+		ColliderBase* otherCollider, const OverlapResult& result) override;
+
+};
