@@ -109,7 +109,13 @@ void Player::Draw()
 	Matrix matrix{};
 	matrix.projection = camera->GetProjectionMatrix();
 	matrix.view = camera->GetViewMatrix();
-	matrix.world = m_Transform.GetMatrix();
+	matrix.world = XMMatrixIdentity();
+	// model adjustments
+	matrix.world *= XMMatrixRotationX(-Math::HALF_PI);
+	matrix.world *= XMMatrixRotationY(Math::HALF_PI * 2.0f);
+	matrix.world *= XMMatrixScaling(0.05f, 0.05f, 0.05f);
+	// model adjustments end
+	matrix.world *= m_Transform.GetMatrix();
 	SHADER.setMatrix(matrix);
 	ModelDraw(currentModel);
 
@@ -117,5 +123,5 @@ void Player::Draw()
 
 void Player::Initialize()
 {
-	currentModel = ModelLoad("asset/model/cube.fbx");
+	currentModel = ModelLoad("asset/model/player.fbx");
 }
