@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CardState.cpp" />
     <ClCompile Include="src\core\debug_ostream.cpp" />
     <ClCompile Include="src\object\Camera.cpp" />
     <ClCompile Include="src\object\Enemy.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="src\scene\SceneGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CardState.h" />
     <ClInclude Include="extern\assimp\aabb.h" />
     <ClInclude Include="extern\assimp\ai_assert.h" />
     <ClInclude Include="extern\assimp\anim.h" />
