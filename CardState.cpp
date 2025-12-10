@@ -1,29 +1,35 @@
 #include "CardState.h"
+#include "CardState.h"
 
 void CardState::Initialize()
 {
-	for (int i = 0; i < static_cast<int>(CardPowerType::COUNT); i++)
+	for (int i = 0; i < static_cast<int>(CardAbilityType::COUNT); i++)
 	{
-		CardPowerFrameCount[i] = 0;
-		CardPowerEnable[i] = false;
+		cardAbilityFrameCount[i] = 0;
+		cardAbilityEnable[i] = false;
 	}
 }
 
 void CardState::Update()
 {
-	for (int i = 0; i < static_cast<int>(CardPowerType::COUNT); i++)
+	for (int i = 0; i < static_cast<int>(CardAbilityType::COUNT); i++)
 	{
-		if (CardPowerEnable[i] == false) continue;
+		if (cardAbilityEnable[i] == false) continue;
 
 		// カウントを減らす
-		CardPowerFrameCount[i]--;
+		cardAbilityFrameCount[i]--;
 
 		// カードパワーを実行する予定
 
-		if (CardPowerFrameCount == 0)
+		if (cardAbilityFrameCount == 0)
 		{
 			// カードパワーを無効にする
-			CardPowerEnable[i] = false;
+			cardAbilityEnable[i] = false;
 		}
 	}
+}
+
+void CardState::OnEnterCard(CardPowerType cardPowerType)
+{
+
 }

@@ -5,6 +5,7 @@
 #include "object/Player.h"
 #include "object/Enemy.h"
 #include "object/Field.h"
+#include "object/CardState.h"
 
 class SceneGame : public Scene
 {
@@ -19,6 +20,8 @@ public:
 		AddGameObject<Player>();
 		AddGameObject<Enemy>();
 		AddGameObject<Field>();
+
+		AddGameObject<CardState>();
 	}
 private:
 	// TODO:
