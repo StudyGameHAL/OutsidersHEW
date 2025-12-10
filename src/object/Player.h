@@ -55,7 +55,11 @@ public:
 
 	void Draw() override;
 
-	void Initialize();
+	void Initialize() override;
+
+	// ===== 衝突コールバックのオーバーライド =====
+	bool OnCollision(GameObject* other, ColliderBase* myCollider,
+		ColliderBase* otherCollider, const OverlapResult& result) override;
 
 	Player() = default;
 	~Player() = default;

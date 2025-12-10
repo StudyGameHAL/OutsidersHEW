@@ -3,12 +3,15 @@
 #include "../render/model.h"
 #include "../render/Shader.h"
 #include "object/Camera.h"
+#include "Enemy.h"
 
 #define PI			(3.14159265359)
 #define TWO_PI		(2 * PI)
 
 void Player::HandleInput()
 {
+	inputVelocity = { 0.0f, 0.0f, 0.0f }; // Reset input velocity after applying movement
+
 	if (Keyboard_IsKeyDown(KK_A))
 	{
 		inputVelocity.x += -1.0f;
@@ -33,7 +36,10 @@ void Player::HandleInput()
 	else
 		SetState(PlayerState::IDLE);
 
-
+	if (Keyboard_IsKeyTrigger(KK_SPACE))
+	{
+		SetState(PlayerState::DASHING);
+	}
 }
 
 void Player::Update()
@@ -45,42 +51,51 @@ void Player::Update()
 
 	if (inputVelocity.x != 0.0f || inputVelocity.z != 0.0f)
 	{
-		//if (currentState == PlayerState::MOVING)
-		//{
-		//
-		//	float inputRotation = atan2f(-inputVelocity.x, -inputVelocity.z);
-		//
-		//	if (inputRotation != m_Transform.GetRotationEuler().y)
-		//	{
-		//		Vector3 buffer = m_Transform.GetRotationEuler();
-		//		buffer.y = std::fmod(buffer.y, TWO_PI);
-		//
-		//		if (buffer.y > PI)
-		//		{
-		//			buffer.y -= TWO_PI;
-		//		}
-		//		else if (buffer.y < -PI)
-		//		{
-		//			buffer.y += TWO_PI;
-		//		}
-		//
-		//		float rotationDiff = inputRotation - buffer.y;
-		//		if (rotationDiff > PI)
-		//			rotationDiff -= TWO_PI;
-		//		else if (rotationDiff < -PI)
-		//			rotationDiff += TWO_PI;
-		//		float rotationStep = 10 /* * deltaTime*/;
-		//		if (abs(rotationDiff) <= rotationStep)
-		//			buffer.y = inputRotation;
-		//		else
-		//			buffer.y += (rotationDiff > 0.0f ? rotationStep : -rotationStep);
-		//
-		//		m_Transform.SetRotationEuler(buffer);
-		//	}
-		//}
+		if (currentState == PlayerState::MOVING)
+		{
+
+			float inputRotation = atan2f(-inputVelocity.x, -inputVelocity.z);
+
+			if (inputRotation != m_Transform.GetRotationEuler().y)
+			{
+				Vector3 buffer = m_Transform.GetRotationEuler();
+				buffer.y = std::fmod(buffer.y, TWO_PI);
+
+				if (buffer.y > PI)
+				{
+					buffer.y -= TWO_PI;
+				}
+				else if (buffer.y < -PI)
+				{
+					buffer.y += TWO_PI;
+				}
+
+				float rotationDiff = inputRotation - buffer.y;
+				if (rotationDiff > PI)
+					rotationDiff -= TWO_PI;
+				else if (rotationDiff < -PI)
+					rotationDiff += TWO_PI;
+				float rotationStep = 10 * deltaTime;
+				if (abs(rotationDiff) <= rotationStep)
+					buffer.y = inputRotation;
+				else
+					buffer.y += (rotationDiff > 0.0f ? rotationStep : -rotationStep);
+
+				m_Transform.SetRotationEuler(buffer);
+			}
+
+		}
+
+
+
 		velocity.x += inputVelocity.x * moveSpeed * deltaTime;
 		velocity.z += inputVelocity.z * moveSpeed * deltaTime;
-		inputVelocity = { 0.0f, 0.0f, 0.0f }; // Reset input velocity after applying movement
+	}
+
+	if (currentState == PlayerState::DASHING)
+	{
+		velocity.x = cos(m_Transform.GetRotationEuler().y + PI/2) * 500.f;
+		velocity.z = sin(m_Transform.GetRotationEuler().y - PI/2) * 500.f;
 	}
 
 	if (velocity.x != 0.0f || velocity.z != 0.0f)
@@ -99,6 +114,12 @@ void Player::Update()
 	}
 
 	//prevPosition = m_Transform.;
+
+	// ===== TransformをColliderに同期 =====
+	SyncCollidersFromTransform();
+
+	// ===== 基底クラスの衝突検出を呼び出し =====
+	CheckCollisions();
 
 }
 
@@ -124,4 +145,31 @@ void Player::Draw()
 void Player::Initialize()
 {
 	currentModel = ModelLoad("asset/model/player.fbx");
+	this->GetTransform().SetPosition({ 0.0f, 0.0f, -2.0f });
+	// ===== Capsuleコライダーを追加 =====
+	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f },XMFLOAT3{0,1,0},1.0f);
+	AddCollider(std::move(collider));
+	SyncCollidersFromTransform();
+}
+
+// ===== 衝突コールバックのオーバーライド：Player専用ロジックを実装 =====
+bool Player::OnCollision(GameObject* other, ColliderBase* myCollider,
+	ColliderBase* otherCollider, const OverlapResult& result)
+{
+	// 敵に接触：ダメージを受ける、ロールバックしない（重なりを許可）
+	if (auto* enemy = dynamic_cast<Enemy*>(other))
+	{
+		printf("Player hit by Enemy!\n");
+		return true;  // ロールバックしない、敵との重なりを許可
+	}
+
+	// 静的オブジェクト（壁・地面）に接触：ロールバック
+	if (other->IsKinematic())
+	{
+		velocity = { 0, 0, 0 };  // 移動を停止
+		return true;  // ロールバックが必要
+	}
+
+	// その他の場合：処理なし
+	return false;
 }
