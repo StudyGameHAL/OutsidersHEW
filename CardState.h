@@ -6,7 +6,7 @@ class CardState : public GameObject
 {
 public:
 	// カードの力一覧
-	enum class CardAbilityType : int
+	enum class CardPowerType : int
 	{
 		TIMESTOP,
 		SUPERATTACKPOWER,
@@ -15,9 +15,9 @@ public:
 
 protected:
 	// カードのPowerTypeとFrameCountのペア変数
-	int cardAbilityFrameCount[static_cast<int>(CardAbilityType::COUNT)];
+	int CardPowerFrameCount[static_cast<int>(CardPowerType::COUNT)];
 	
-	bool cardAbilityEnable[static_cast<int>(CardAbilityType::COUNT)];
+	bool CardPowerEnable[static_cast<int>(CardPowerType::COUNT)];
 public:
 	CardState() = default;
 	~CardState() = default;

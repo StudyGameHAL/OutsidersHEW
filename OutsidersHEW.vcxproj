@@ -144,7 +144,6 @@
     <ClCompile Include="CardState.cpp" />
     <ClCompile Include="src\core\debug_ostream.cpp" />
     <ClCompile Include="src\object\Camera.cpp" />
-    <ClCompile Include="src\object\CardState.cpp" />
     <ClCompile Include="src\object\Enemy.cpp" />
     <ClCompile Include="src\object\Field.cpp" />
     <ClCompile Include="src\object\GameObject.cpp" />
@@ -247,7 +246,6 @@
     <ClInclude Include="extern\assimp\ZipArchiveIOSystem.h" />
     <ClInclude Include="src\object\Camera.h" />
     <ClInclude Include="src\core\debug_ostream.h" />
-    <ClInclude Include="src\object\CardState.h" />
     <ClInclude Include="src\object\Projectile.h" />
     <ClInclude Include="src\object\Enemy.h" />
     <ClInclude Include="src\object\Field.h" />
