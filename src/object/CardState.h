@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/object/GameObject.h"
+#include "GameObject.h"
 
 class CardState : public GameObject
 {
@@ -13,11 +13,15 @@ public:
 		COUNT
 	};
 
-protected:
-	// カードのPowerTypeとFrameCountのペア変数
+private:
+	static constexpr int cardAbilityFrameMax = 240;
+
+private:
+	// カードの能力のフレームを保存する変数
 	int cardAbilityFrameCount[static_cast<int>(CardAbilityType::COUNT)];
-	
+	// カードの能力が有効かどうか
 	bool cardAbilityEnable[static_cast<int>(CardAbilityType::COUNT)];
+
 public:
 	CardState() = default;
 	~CardState() = default;
@@ -25,4 +29,6 @@ public:
 	void Initialize() override;
 	void Update() override;
 	void Draw() {};
+
+	void OnEnterCard(CardAbilityType cardAbilityType);
 };
