@@ -25,4 +25,6 @@ public:
 	void Initialize() override;
 	void Update() override;
 	void Draw() {};
+
+	void OnEnterCard(CardAbilityType newCardAbilityType);
 };

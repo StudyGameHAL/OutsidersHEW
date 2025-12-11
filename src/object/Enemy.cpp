@@ -12,7 +12,7 @@ void Enemy::Initialize()
 	m_Model = ModelLoad("asset/model/BUG1.fbx");
 	
 	// ===== Capsuleコライダーを追加 =====
-	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f }, XMFLOAT3{0, 1, 0}, 0.8f);
+	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f }, DirectX::XMFLOAT3{0, 1, 0}, 0.8f);
 	AddCollider(std::move(collider));
 }
 
@@ -21,12 +21,12 @@ void Enemy::Update()
 	Scene* scene = GetScene();
 	ApplyRotationToPlayer();
 	// アタックカウントを加算
-	m_AttackCount++;
+	m_AttackFrameCount++;
 
 	// アタックするカウントになったとき
-	if (m_AttackCount > m_CountToAttack)
+	if (m_AttackFrameCount > m_FrameToAttack)
 	{
-		m_AttackCount = 0;
+		m_AttackFrameCount = 0;
 		// シーンにゲームオブジェクトを追加
 		Projectile* projectile = scene->AddGameObject<Projectile>();
 
@@ -73,6 +73,8 @@ bool Enemy::OnCollision(GameObject* other, ColliderBase* myCollider,
 		hal::dout << "Enemy hit by Player!\n";
 		return true;  // ロールバックが必要
 	}
+
+	if (!other) return false;
 
 	// 静的オブジェクト（壁・地面）に接触：ロールバック
 	if (other->IsKinematic())

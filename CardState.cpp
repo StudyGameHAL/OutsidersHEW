@@ -1,5 +1,4 @@
 #include "CardState.h"
-#include "CardState.h"
 
 void CardState::Initialize()
 {
@@ -29,7 +28,8 @@ void CardState::Update()
 	}
 }
 
-void CardState::OnEnterCard(CardPowerType cardPowerType)
+void CardState::OnEnterCard(CardAbilityType newCardAbilityType)
 {
-
+	// フレームカウントをマックスに?
+	// カードEnableをtrueに。
 }
