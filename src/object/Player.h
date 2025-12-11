@@ -23,15 +23,19 @@ private:
 	Vector3 velocity;
 
 	int health = 100;
+	int damage = 10;
+	bool isInvincible = false;
+	float invincibleTimer = 0.0f;
+	float invincibleDuration = 1.0f;
 
 	float jumpPower = 10.0f;
-
+	
 	float maxMoveSpeed = 20.0f;
 	float moveSpeed = 20.0f;
 
 	float friction = 10.0f;
 
-	MODEL* currentModel;
+	MODEL* currentModel = nullptr;
 
 	void HandleInput();
 

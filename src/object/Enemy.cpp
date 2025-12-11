@@ -18,6 +18,12 @@ void Enemy::Initialize()
 
 void Enemy::Update()
 {
+	if (m_Health <= 0)
+	{
+		SetDeleted(true);
+		return;
+	}
+
 	Scene* scene = GetScene();
 	ApplyRotationToPlayer();
 	// アタックカウントを加算

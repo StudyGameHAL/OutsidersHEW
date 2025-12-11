@@ -8,7 +8,7 @@ private:
 
 private:
 	Vector3 m_Velocity = Vector3(0.0f, 0.0f, 0.0f);
-	int m_Health = 0;
+	int m_Health = 5;
 	Vector3 m_MaxMoveSpeed = Vector3(0.0f, 0.0f, 0.0f);
 	int m_AttackCount = 0;
 
@@ -24,6 +24,8 @@ public:
 
 	void Update() override;
 	void Draw() override;
+
+	void ReciveDamage(int damage) noexcept { m_Health -= damage; }
 
 protected:
 	void ApplyRotationToPlayer();
