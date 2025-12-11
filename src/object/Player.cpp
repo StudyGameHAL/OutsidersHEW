@@ -45,7 +45,12 @@ void Player::HandleInput()
 void Player::Update()
 {
 	if (health <= 0)
-		isDeleted = true;
+	{
+		SetDeleted(true);
+		return;
+	}
+
+	//if ()
 
 	HandleInput();
 
@@ -97,8 +102,8 @@ void Player::Update()
 
 	if (currentState == PlayerState::DASHING)
 	{
-		velocity.x = cos(m_Transform.GetRotationEuler().y + PI/2) * 500.f;
-		velocity.z = sin(m_Transform.GetRotationEuler().y - PI/2) * 500.f;
+		velocity.x = cos(m_Transform.GetRotationEuler().y + PI / 2) * 500.f;
+		velocity.z = sin(m_Transform.GetRotationEuler().y - PI / 2) * 500.f;
 	}
 
 	if (velocity.x != 0.0f || velocity.z != 0.0f)
@@ -150,7 +155,7 @@ void Player::Initialize()
 	currentModel = ModelLoad("asset/model/player.fbx");
 	this->GetTransform().SetPosition({ 0.0f, 0.0f, -2.0f });
 	// ===== Capsuleコライダーを追加 =====
-	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f },XMFLOAT3{0,1,0},1.0f);
+	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f }, XMFLOAT3{ 0,1,0 }, 1.0f);
 	AddCollider(std::move(collider));
 	SyncCollidersFromTransform();
 }
@@ -162,6 +167,10 @@ bool Player::OnCollision(GameObject* other, ColliderBase* myCollider,
 	// 敵に接触：ダメージを受ける、ロールバックしない（重なりを許可）
 	if (auto* enemy = dynamic_cast<Enemy*>(other))
 	{
+		if (currentState == PlayerState::DASHING)
+			enemy->ReciveDamage(damage);
+		else
+			health -= 10;
 		printf("Player hit by Enemy!\n");
 		return true;  // ロールバックしない、敵との重なりを許可
 	}
