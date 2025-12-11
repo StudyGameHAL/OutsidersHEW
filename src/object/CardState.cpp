@@ -5,7 +5,6 @@ void CardState::Initialize()
 	for (int i = 0; i < static_cast<int>(CardAbilityType::COUNT); i++)
 	{
 		cardAbilityFrameCount[i] = 0;
-
 		cardAbilityEnable[i] = false;
 	}
 }
@@ -35,7 +34,6 @@ void CardState::Update()
 		if (cardAbilityFrameCount[i] <= 0)
 		{
 			cardAbilityFrameCount[i] = 0;
-
 			cardAbilityEnable[i] = false;
 		}
 	}
@@ -47,7 +45,6 @@ void CardState::OnEnterCard(CardAbilityType cardPowerType)
 	for (int i = 0; i < static_cast<int>(CardAbilityType::COUNT); i++)
 	{
 		cardAbilityFrameCount[i] = cardAbilityFrameMax;
-
 		cardAbilityEnable[i] = true;
 	}
 }

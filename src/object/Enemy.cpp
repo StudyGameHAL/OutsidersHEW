@@ -4,7 +4,10 @@
 #include "../render/Shader.h"
 #include "object/Camera.h"
 #include "object/Player.h"
+
 #include "object/Projectile.h"
+#include "object/NormalCard.h"
+
 #include "core/debug_ostream.h"
 
 void Enemy::Initialize()
@@ -28,7 +31,7 @@ void Enemy::Update()
 	{
 		m_AttackFrameCount = 0;
 		// シーンにゲームオブジェクトを追加
-		Projectile* projectile = scene->AddGameObject<Projectile>();
+		NormalCard* projectile = scene->AddGameObject<NormalCard>();
 
 		// プロジェクタイルに力を加える
 		projectile->SetVelocity(m_Transform.GetForwardVector() * 2.0f);
@@ -73,8 +76,6 @@ bool Enemy::OnCollision(GameObject* other, ColliderBase* myCollider,
 		hal::dout << "Enemy hit by Player!\n";
 		return true;  // ロールバックが必要
 	}
-
-	if (!other) return false;
 
 	// 静的オブジェクト（壁・地面）に接触：ロールバック
 	if (other->IsKinematic())

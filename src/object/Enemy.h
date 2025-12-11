@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
-#include "render/model.h"
 
+class MODEL;
 class Enemy : public GameObject
 {
 private:
@@ -14,7 +14,7 @@ protected:
 	MODEL* m_Model;
 
 private:
-	static constexpr int m_FrameToAttack = 25;
+	static constexpr int m_FrameToAttack = 1;
 public:
 	Enemy() = default;
 	virtual ~Enemy() = default;

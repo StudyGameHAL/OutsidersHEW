@@ -1,11 +1,13 @@
 #include "NormalCard.h"
+#include "scene/Scene.h"
+#include "Player.h"
 
 void NormalCard::Initialize()
 {
 	Projectile::Initialize();
 
 	// ===== Capsuleコライダーを追加 =====
-	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f }, DirectX::XMFLOAT3{ 0, 1, 0 }, 0.8f);
+	auto collider = MakeSphereCollider(1.0f);
 	AddCollider(std::move(collider));
 }
 
@@ -23,5 +25,28 @@ void NormalCard::Update()
 
 bool NormalCard::OnCollision(GameObject* other, ColliderBase* myCollider, ColliderBase* otherCollider, const OverlapResult& result)
 {
+	Scene* scene = GetScene();
+
+	Player* player = scene->GetGameObject<Player>();
+	
+	// プレイヤーだった時の処理
+	if (other == player)
+	{
+		SetDeleted(true);
+
+		//// プレイヤーがダッシュ中だったら
+		//if (player->GetState() == PlayerState::DASHING)
+		//{
+		//	return false;
+		//}
+	}
+
+	// 静的オブジェクト（壁・地面）に接触：ロールバック
+	if (other->IsKinematic())
+	{
+		return true;  // ロールバックが必要
+	}
+	
+	// その他の場合：処理なし
 	return false;
 }
