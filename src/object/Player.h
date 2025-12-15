@@ -84,13 +84,14 @@ public:
 	bool OnCollision(GameObject* other, ColliderBase* myCollider,
 		ColliderBase* otherCollider, const OverlapResult& result) override;
 
-	// ===== カードに当たった時の処理 =====
-	void OnEnterCard(Player::CardAbilityType cardAbilityType);
-
 	Player() = default;
 	~Player() = default;
 
 private:
 	void CardStateUpdate();
+	// ===== カードに当たった時の処理 =====
+	void EnableCard(Player::CardAbilityType cardAbilityType);
+	// ===== カードの効果が終了した時の処理 =====
+	void DisableCard(Player::CardAbilityType cardAbilityType);
 };
 

@@ -192,8 +192,8 @@ bool Player::OnCollision(GameObject* other, ColliderBase* myCollider,
 	else if (auto* card = dynamic_cast<NormalCard*>(other))
 	{
 		card->SetDeleted(true);  // カードを消す
-		OnEnterCard(Player::CardAbilityType::TIMESTOP);
-		OnEnterCard(Player::CardAbilityType::SUPERATTACKPOWER);
+		EnableCard(Player::CardAbilityType::TIMESTOP);
+		EnableCard(Player::CardAbilityType::SUPERATTACKPOWER);
 		printf("Player hit by Card!\n");
 		return true;  // ロールバックしない、敵との重なりを許可
 	}
@@ -218,16 +218,12 @@ void Player::CardStateUpdate()
 		// カウントを減らす
 		cardAbilityFrameCount[i]--;
 
-		Scene* scene = GetScene();
-		// カードパワーを実行する予定
+		// アップデートで実行したい処理
 		switch (static_cast<Player::CardAbilityType>(i))
 		{
 		case Player::CardAbilityType::TIMESTOP:
-			// タイムストップ
-			scene->SetTimeStopActive(true);
 			break;
 		case Player::CardAbilityType::SUPERATTACKPOWER:
-			// 攻撃力増加
 			break;
 		default:
 			break;
@@ -235,28 +231,49 @@ void Player::CardStateUpdate()
 
 		if (cardAbilityFrameCount[i] <= 0)
 		{
-			cardAbilityFrameCount[i] = 0;
-			cardAbilityEnable[i] = false;
-
-			// カードパワーを解除する処理
-			switch (static_cast<Player::CardAbilityType>(i))
-			{
-			case Player::CardAbilityType::TIMESTOP:
-				// タイムストップを解除
-				scene->SetTimeStopActive(false);
-				break;
-			case Player::CardAbilityType::SUPERATTACKPOWER:
-				// 攻撃力増加を解除
-				break;
-			default:
-				break;
-			}
+			DisableCard(static_cast<Player::CardAbilityType>(i));
 		}
 	}
 }
 
-void Player::OnEnterCard(Player::CardAbilityType cardAbilityType)
+void Player::EnableCard(Player::CardAbilityType cardAbilityType)
 {
 	cardAbilityFrameCount[static_cast<int>(cardAbilityType)] = cardAbilityFrameMax;
 	cardAbilityEnable[static_cast<int>(cardAbilityType)] = true;
+	
+	Scene* scene = GetScene();
+
+	switch (cardAbilityType)
+	{
+	case Player::CardAbilityType::TIMESTOP:
+		// タイムストップを有効化
+		scene->SetTimeStopEnable(true);
+		break;
+	case Player::CardAbilityType::SUPERATTACKPOWER:
+		// 攻撃力を有効化
+		break;
+	default:
+		break;
+	}
+}
+
+void Player::DisableCard(Player::CardAbilityType cardAbilityType)
+{
+	cardAbilityFrameCount[static_cast<int>(cardAbilityType)] = 0;
+	cardAbilityEnable[static_cast<int>(cardAbilityType)] = false;
+
+	Scene* scene = GetScene();
+
+	switch (cardAbilityType)
+	{
+	case Player::CardAbilityType::TIMESTOP:
+		// タイムストップを解除
+		scene->SetTimeStopEnable(false);
+		break;
+	case Player::CardAbilityType::SUPERATTACKPOWER:
+		// 攻撃力を解除
+		break;
+	default:
+		break;
+	}
 }

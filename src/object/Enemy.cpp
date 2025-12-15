@@ -78,7 +78,7 @@ void Enemy::Draw()
 	// model adjustments
 	matrix.world *= XMMatrixRotationX(-Math::HALF_PI);
 	matrix.world *= XMMatrixRotationY(-Math::HALF_PI * 1.0f);
-	matrix.world *= XMMatrixScaling(0.7f, 0.7f, 0.7f);
+	matrix.world *= XMMatrixScaling(0.3f, 0.3f, 0.3f);
 	// model adjustments end
 
 	matrix.world *= m_Transform.GetMatrix();
