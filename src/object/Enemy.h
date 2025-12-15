@@ -14,7 +14,7 @@ protected:
 	MODEL* m_Model;
 
 private:
-	static constexpr int m_FrameToAttack = 1;
+	static constexpr int m_FrameToAttack = 60;
 public:
 	Enemy() = default;
 	virtual ~Enemy() = default;

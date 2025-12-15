@@ -3,7 +3,9 @@
 #include "../render/model.h"
 #include "../render/Shader.h"
 #include "object/Camera.h"
-#include "Enemy.h"
+#include "object/Enemy.h"
+#include "object/NormalCard.h"
+#include "scene/Scene.h"
 
 #define PI			(3.14159265359)
 #define TWO_PI		(2 * PI)
@@ -128,7 +130,12 @@ void Player::Update()
 
 	// ===== 基底クラスの衝突検出を呼び出し =====
 	CheckCollisions();
+}
 
+void Player::NoTimeStopUpdate()
+{
+	// ===== カードの状態の更新 =====
+	CardStateUpdate();
 }
 
 void Player::Draw()
@@ -158,6 +165,13 @@ void Player::Initialize()
 	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f }, XMFLOAT3{ 0,1,0 }, 1.0f);
 	AddCollider(std::move(collider));
 	SyncCollidersFromTransform();
+
+	// ===== カードの能力を初期化 =====
+	for (int i = 0; i < static_cast<int>(CardAbilityType::COUNT); i++)
+	{
+		cardAbilityFrameCount[i] = 0;
+		cardAbilityEnable[i] = false;
+	}
 }
 
 // ===== 衝突コールバックのオーバーライド：Player専用ロジックを実装 =====
@@ -174,6 +188,15 @@ bool Player::OnCollision(GameObject* other, ColliderBase* myCollider,
 		printf("Player hit by Enemy!\n");
 		return true;  // ロールバックしない、敵との重なりを許可
 	}
+	// ノーマルカードに接触：カードの能力を取得、ロールバックしない（重なりを許可）
+	else if (auto* card = dynamic_cast<NormalCard*>(other))
+	{
+		card->SetDeleted(true);  // カードを消す
+		OnEnterCard(Player::CardAbilityType::TIMESTOP);
+		OnEnterCard(Player::CardAbilityType::SUPERATTACKPOWER);
+		printf("Player hit by Card!\n");
+		return true;  // ロールバックしない、敵との重なりを許可
+	}
 
 	// 静的オブジェクト（壁・地面）に接触：ロールバック
 	if (other->IsKinematic())
@@ -184,4 +207,56 @@ bool Player::OnCollision(GameObject* other, ColliderBase* myCollider,
 
 	// その他の場合：処理なし
 	return false;
+}
+
+void Player::CardStateUpdate()
+{
+	for (int i = 0; i < static_cast<int>(Player::CardAbilityType::COUNT); i++)
+	{
+		if (cardAbilityEnable[i] == false) continue;
+
+		// カウントを減らす
+		cardAbilityFrameCount[i]--;
+
+		Scene* scene = GetScene();
+		// カードパワーを実行する予定
+		switch (static_cast<Player::CardAbilityType>(i))
+		{
+		case Player::CardAbilityType::TIMESTOP:
+			// タイムストップ
+			scene->SetTimeStopActive(true);
+			break;
+		case Player::CardAbilityType::SUPERATTACKPOWER:
+			// 攻撃力増加
+			break;
+		default:
+			break;
+		}
+
+		if (cardAbilityFrameCount[i] <= 0)
+		{
+			cardAbilityFrameCount[i] = 0;
+			cardAbilityEnable[i] = false;
+
+			// カードパワーを解除する処理
+			switch (static_cast<Player::CardAbilityType>(i))
+			{
+			case Player::CardAbilityType::TIMESTOP:
+				// タイムストップを解除
+				scene->SetTimeStopActive(false);
+				break;
+			case Player::CardAbilityType::SUPERATTACKPOWER:
+				// 攻撃力増加を解除
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Player::OnEnterCard(Player::CardAbilityType cardAbilityType)
+{
+	cardAbilityFrameCount[static_cast<int>(cardAbilityType)] = cardAbilityFrameMax;
+	cardAbilityEnable[static_cast<int>(cardAbilityType)] = true;
 }

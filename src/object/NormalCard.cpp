@@ -5,6 +5,7 @@
 void NormalCard::Initialize()
 {
 	Projectile::Initialize();
+	m_Model = ModelLoad("asset/model/tree.fbx");
 
 	// ===== Capsuleコライダーを追加 =====
 	auto collider = MakeSphereCollider(1.0f);
@@ -32,13 +33,7 @@ bool NormalCard::OnCollision(GameObject* other, ColliderBase* myCollider, Collid
 	// プレイヤーだった時の処理
 	if (other == player)
 	{
-		SetDeleted(true);
-
-		//// プレイヤーがダッシュ中だったら
-		//if (player->GetState() == PlayerState::DASHING)
-		//{
-		//	return false;
-		//}
+		// SetDeleted(true);
 	}
 
 	// 静的オブジェクト（壁・地面）に接触：ロールバック

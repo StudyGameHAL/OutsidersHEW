@@ -36,11 +36,26 @@ void Enemy::Update()
 	if (m_AttackFrameCount > m_FrameToAttack)
 	{
 		m_AttackFrameCount = 0;
-		// シーンにゲームオブジェクトを追加
-		NormalCard* projectile = scene->AddGameObject<NormalCard>();
+		static bool normalCard = false;
+		
+		if (normalCard)
+		{
+			// シーンにゲームオブジェクトを追加
+			Projectile* projectile = scene->AddGameObject<NormalCard>();
 
-		// プロジェクタイルに力を加える
-		projectile->SetVelocity(m_Transform.GetForwardVector() * 2.0f);
+			// プロジェクタイルに力を加える
+			projectile->SetVelocity(m_Transform.GetForwardVector() * 2.0f);
+		}
+		else
+		{
+			// シーンにゲームオブジェクトを追加
+			Projectile* projectile = scene->AddGameObject<Projectile>();
+
+			// プロジェクタイルに力を加える
+			projectile->SetVelocity(m_Transform.GetForwardVector() * 2.0f);
+		}
+
+		normalCard = !normalCard;
 	}
 
 	// ===== TransformをColliderに同期 =====

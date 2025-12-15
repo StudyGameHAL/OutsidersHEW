@@ -14,6 +14,17 @@ enum class PlayerState
 
 class Player : public GameObject
 {
+public:
+	enum class CardAbilityType : int
+	{
+		TIMESTOP,
+		SUPERATTACKPOWER,
+		COUNT
+	};
+
+private:
+	static constexpr int cardAbilityFrameMax = 120;
+
 private:
 
 	PlayerState currentState = PlayerState::IDLE;
@@ -39,6 +50,13 @@ private:
 
 	void HandleInput();
 
+private:
+
+	// カードの能力のフレームを保存する変数
+	int cardAbilityFrameCount[static_cast<int>(CardAbilityType::COUNT)];
+	// カードの能力が有効かどうか
+	bool cardAbilityEnable[static_cast<int>(CardAbilityType::COUNT)];
+
 public:
 	PlayerState GetState() const noexcept { return currentState; };
 	void SetState(PlayerState state) noexcept { currentState = state; };
@@ -50,12 +68,13 @@ public:
 	void SetHealth(int _health) noexcept { health = _health; };
 
 	float GetJumpPower() const noexcept { return jumpPower; };
-	void SetJumoPower(float _jumpPower) noexcept { jumpPower = _jumpPower; };
+	void SetJumpPower(float _jumpPower) noexcept { jumpPower = _jumpPower; };
 
 	Vector3 GetVelocity() const noexcept { return velocity; };
 	void SetVelocity(Vector3 _velocity) noexcept { velocity = _velocity; };
 
 	void Update() override;
+	void NoTimeStopUpdate() override;
 
 	void Draw() override;
 
@@ -65,7 +84,13 @@ public:
 	bool OnCollision(GameObject* other, ColliderBase* myCollider,
 		ColliderBase* otherCollider, const OverlapResult& result) override;
 
+	// ===== カードに当たった時の処理 =====
+	void OnEnterCard(Player::CardAbilityType cardAbilityType);
+
 	Player() = default;
 	~Player() = default;
+
+private:
+	void CardStateUpdate();
 };
 

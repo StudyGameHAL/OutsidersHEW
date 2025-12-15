@@ -18,26 +18,33 @@ public:
 	}
 	virtual void Update()
 	{
-
-		// ステップ1：全オブジェクトの現在位置を保存（ロールバック用）
-		for (auto& gameObject : m_GameObjects)
+		if (m_TimeStopActive == false)
 		{
-			gameObject->SaveTransform();
+			// ステップ1：全オブジェクトの現在位置を保存（ロールバック用）
+			for (auto& gameObject : m_GameObjects)
+			{
+				gameObject->SaveTransform();
+			}
+
+			std::vector<GameObject*> toDelete;
+			for (auto gameObject : m_GameObjects)
+				if (gameObject->IsDeleted()) toDelete.push_back(gameObject);
+
+			for (auto obj : toDelete)
+			{
+				DeleteGameObject(obj);
+			}
+
+			// ステップ2：各オブジェクトが自身で更新（内部で衝突処理を行う）
+			for (const auto& gameObject : m_GameObjects)
+			{
+				gameObject->Update();
+			}
 		}
 
-		std::vector<GameObject*> toDelete;
-		for (auto gameObject : m_GameObjects)
-			if (gameObject->IsDeleted()) toDelete.push_back(gameObject);
-
-		for (auto obj : toDelete)
-		{
-			DeleteGameObject(obj);
-		}
-
-		// ステップ2：各オブジェクトが自身で更新（内部で衝突処理を行う）
 		for (const auto& gameObject : m_GameObjects)
 		{
-			gameObject->Update();
+			gameObject->NoTimeStopUpdate();
 		}
 	}
 	virtual void Draw()
@@ -92,7 +99,13 @@ public:
 
 	const std::list<GameObject*>& GetAllGameObjects() const { return m_GameObjects; }
 
+	void SetTimeStopActive(bool newActive) { m_TimeStopActive = newActive; }
+
 protected:
 	std::list<GameObject*> m_GameObjects;
 	class Camera* m_CurrentCamera{};
+
+private:
+	bool m_TimeStopActive = false;
+	
 };
