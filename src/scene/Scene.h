@@ -6,6 +6,9 @@
 
 class Scene
 {
+private:
+	bool m_TimeStopEnable = false;
+
 public:
 	Scene() = default;
 	virtual ~Scene()
@@ -105,7 +108,6 @@ protected:
 	std::list<GameObject*> m_GameObjects;
 	class Camera* m_CurrentCamera{};
 
-private:
-	bool m_TimeStopEnable = false;
+
 	
 };
