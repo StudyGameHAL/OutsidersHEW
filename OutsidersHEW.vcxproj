@@ -150,6 +150,7 @@
     <ClCompile Include="src\object\NormalCard.cpp" />
     <ClCompile Include="src\object\Projectile.cpp" />
     <ClCompile Include="src\object\Player.cpp" />
+    <ClCompile Include="src\object\TimeDelay.cpp" />
     <ClCompile Include="src\physics\Collider.cpp" />
     <ClCompile Include="src\physics\Colliders_Impl.cpp" />
     <ClCompile Include="src\render\DirectX.cpp" />
@@ -252,6 +253,7 @@
     <ClInclude Include="src\object\Enemy.h" />
     <ClInclude Include="src\object\Field.h" />
     <ClInclude Include="src\object\Player.h" />
+    <ClInclude Include="src\object\TimeDelay.h" />
     <ClInclude Include="src\physics\Collider.hpp" />
     <ClInclude Include="src\render\DirectX.h" />
     <ClInclude Include="extern\DirectXTex.h" />

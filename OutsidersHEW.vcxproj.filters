@@ -69,10 +69,10 @@
     <ClCompile Include="CardState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\object\CardState.cpp">
+    <ClCompile Include="src\object\NormalCard.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\object\NormalCard.cpp">
+    <ClCompile Include="src\object\TimeDelay.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -389,10 +389,10 @@
     <ClInclude Include="CardState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\object\CardState.h">
+    <ClInclude Include="src\object\NormalCard.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\object\NormalCard.h">
+    <ClInclude Include="src\object\TimeDelay.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
