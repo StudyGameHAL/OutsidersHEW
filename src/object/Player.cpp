@@ -132,12 +132,6 @@ void Player::Update()
 	CheckCollisions();
 }
 
-void Player::NoTimeStopUpdate()
-{
-	// ===== カードの状態の更新 =====
-	CardStateUpdate();
-}
-
 void Player::Draw()
 {
 	auto camera = GetSceneCamera();
@@ -165,13 +159,6 @@ void Player::Initialize()
 	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f }, XMFLOAT3{ 0,1,0 }, 1.0f);
 	AddCollider(std::move(collider));
 	SyncCollidersFromTransform();
-
-	// ===== カードの能力を初期化 =====
-	for (int i = 0; i < static_cast<int>(CardAbilityType::COUNT); i++)
-	{
-		cardAbilityFrameCount[i] = 0;
-		cardAbilityEnable[i] = false;
-	}
 }
 
 // ===== 衝突コールバックのオーバーライド：Player専用ロジックを実装 =====
@@ -192,8 +179,6 @@ bool Player::OnCollision(GameObject* other, ColliderBase* myCollider,
 	else if (auto* card = dynamic_cast<NormalCard*>(other))
 	{
 		card->SetDeleted(true);  // カードを消す
-		EnableCard(Player::CardAbilityType::TIMESTOP);
-		EnableCard(Player::CardAbilityType::SUPERATTACKPOWER);
 		printf("Player hit by Card!\n");
 		return true;  // ロールバックしない、敵との重なりを許可
 	}
@@ -207,73 +192,4 @@ bool Player::OnCollision(GameObject* other, ColliderBase* myCollider,
 
 	// その他の場合：処理なし
 	return false;
-}
-
-void Player::CardStateUpdate()
-{
-	for (int i = 0; i < static_cast<int>(Player::CardAbilityType::COUNT); i++)
-	{
-		if (cardAbilityEnable[i] == false) continue;
-
-		// カウントを減らす
-		cardAbilityFrameCount[i]--;
-
-		// アップデートで実行したい処理
-		switch (static_cast<Player::CardAbilityType>(i))
-		{
-		case Player::CardAbilityType::TIMESTOP:
-			break;
-		case Player::CardAbilityType::SUPERATTACKPOWER:
-			break;
-		default:
-			break;
-		}
-
-		if (cardAbilityFrameCount[i] <= 0)
-		{
-			DisableCard(static_cast<Player::CardAbilityType>(i));
-		}
-	}
-}
-
-void Player::EnableCard(Player::CardAbilityType cardAbilityType)
-{
-	cardAbilityFrameCount[static_cast<int>(cardAbilityType)] = cardAbilityFrameMax;
-	cardAbilityEnable[static_cast<int>(cardAbilityType)] = true;
-	
-	Scene* scene = GetScene();
-
-	switch (cardAbilityType)
-	{
-	case Player::CardAbilityType::TIMESTOP:
-		// タイムストップを有効化
-		//scene->SetTimeStopEnable(true);
-		break;
-	case Player::CardAbilityType::SUPERATTACKPOWER:
-		// 攻撃力を有効化
-		break;
-	default:
-		break;
-	}
-}
-
-void Player::DisableCard(Player::CardAbilityType cardAbilityType)
-{
-	cardAbilityFrameCount[static_cast<int>(cardAbilityType)] = 0;
-	cardAbilityEnable[static_cast<int>(cardAbilityType)] = false;
-
-	Scene* scene = GetScene();
-
-	switch (cardAbilityType)
-	{
-	case Player::CardAbilityType::TIMESTOP:
-		// タイムストップを解除
-		scene->SetTimeStopEnable(false);
-		break;
-	case Player::CardAbilityType::SUPERATTACKPOWER:
-		// 攻撃力を解除
-		break;
-	default:
-		break;
-	}
 }

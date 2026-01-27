@@ -14,16 +14,6 @@ enum class PlayerState
 
 class Player : public GameObject
 {
-public:
-	enum class CardAbilityType : int
-	{
-		TIMESTOP,
-		SUPERATTACKPOWER,
-		COUNT
-	};
-
-private:
-	static constexpr int cardAbilityFrameMax = 120;
 
 private:
 
@@ -50,13 +40,6 @@ private:
 
 	void HandleInput();
 
-private:
-
-	// カードの能力のフレームを保存する変数
-	int cardAbilityFrameCount[static_cast<int>(CardAbilityType::COUNT)];
-	// カードの能力が有効かどうか
-	bool cardAbilityEnable[static_cast<int>(CardAbilityType::COUNT)];
-
 public:
 	PlayerState GetState() const noexcept { return currentState; };
 	void SetState(PlayerState state) noexcept { currentState = state; };
@@ -74,7 +57,6 @@ public:
 	void SetVelocity(Vector3 _velocity) noexcept { velocity = _velocity; };
 
 	void Update() override;
-	void NoTimeStopUpdate() override;
 
 	void Draw() override;
 
@@ -86,12 +68,5 @@ public:
 
 	Player() = default;
 	~Player() = default;
-
-private:
-	void CardStateUpdate();
-	// ===== カードに当たった時の処理 =====
-	void EnableCard(Player::CardAbilityType cardAbilityType);
-	// ===== カードの効果が終了した時の処理 =====
-	void DisableCard(Player::CardAbilityType cardAbilityType);
 };
 

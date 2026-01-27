@@ -141,7 +141,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CardState.cpp" />
     <ClCompile Include="src\core\debug_ostream.cpp" />
     <ClCompile Include="src\object\Camera.cpp" />
     <ClCompile Include="src\object\Card.cpp" />
@@ -152,7 +151,6 @@
     <ClCompile Include="src\object\NormalCard.cpp" />
     <ClCompile Include="src\object\Projectile.cpp" />
     <ClCompile Include="src\object\Player.cpp" />
-    <ClCompile Include="src\object\TimeDelay.cpp" />
     <ClCompile Include="src\physics\Collider.cpp" />
     <ClCompile Include="src\physics\Colliders_Impl.cpp" />
     <ClCompile Include="src\render\DirectX.cpp" />
@@ -165,7 +163,6 @@
     <ClCompile Include="src\scene\SceneGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CardState.h" />
     <ClInclude Include="extern\assimp\aabb.h" />
     <ClInclude Include="extern\assimp\ai_assert.h" />
     <ClInclude Include="extern\assimp\anim.h" />
@@ -257,7 +254,6 @@
     <ClInclude Include="src\object\Enemy.h" />
     <ClInclude Include="src\object\Field.h" />
     <ClInclude Include="src\object\Player.h" />
-    <ClInclude Include="src\object\TimeDelay.h" />
     <ClInclude Include="src\physics\Collider.hpp" />
     <ClInclude Include="src\render\DirectX.h" />
     <ClInclude Include="extern\DirectXTex.h" />

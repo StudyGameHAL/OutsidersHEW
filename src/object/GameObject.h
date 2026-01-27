@@ -12,7 +12,6 @@ public:
 	virtual ~GameObject() {};
 	virtual void Initialize() {};
 	virtual void Update() {};
-	virtual void NoTimeStopUpdate() {};
 	virtual void Draw() {};
 	virtual void Finalize() {}
 	const Transform& GetTransform() const { return m_Transform; }

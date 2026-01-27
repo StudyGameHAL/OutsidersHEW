@@ -6,9 +6,6 @@
 
 class Scene
 {
-private:
-	bool m_TimeStopEnable = false;
-
 public:
 	Scene() = default;
 	virtual ~Scene()
@@ -21,13 +18,6 @@ public:
 	}
 	virtual void Update()
 	{
-		for (const auto& gameObject : m_GameObjects)
-		{
-			gameObject->NoTimeStopUpdate();
-		}
-
-		// タイムストップ中なら更新処理をスキップ
-		if (m_TimeStopEnable == true) return;
 		// ステップ1：全オブジェクトの現在位置を保存（ロールバック用）
 		for (auto& gameObject : m_GameObjects)
 		{
@@ -100,8 +90,6 @@ public:
 	}
 
 	const std::list<GameObject*>& GetAllGameObjects() const { return m_GameObjects; }
-public:
-	void SetTimeStopEnable(bool newActive) { m_TimeStopEnable = newActive; }
 
 protected:
 	std::list<GameObject*> m_GameObjects;
