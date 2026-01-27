@@ -1,7 +1,7 @@
 #include "object/Enemy.h"
 #include "render/DirectX.h"
 #include "scene/Scene.h"
-#include "../render/Shader.h"
+#include "render/Shader.h"
 #include "object/Camera.h"
 #include "object/Player.h"
 

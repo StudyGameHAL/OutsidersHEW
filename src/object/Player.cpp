@@ -1,7 +1,7 @@
 ﻿#include "object/Player.h"
-#include "../core/Keyboard.h"
-#include "../render/model.h"
-#include "../render/Shader.h"
+#include "core/Keyboard.h"
+#include "render/model.h"
+#include "render/Shader.h"
 #include "object/Camera.h"
 #include "object/Enemy.h"
 #include "object/NormalCard.h"
@@ -247,7 +247,7 @@ void Player::EnableCard(Player::CardAbilityType cardAbilityType)
 	{
 	case Player::CardAbilityType::TIMESTOP:
 		// タイムストップを有効化
-		scene->SetTimeStopEnable(true);
+		//scene->SetTimeStopEnable(true);
 		break;
 	case Player::CardAbilityType::SUPERATTACKPOWER:
 		// 攻撃力を有効化

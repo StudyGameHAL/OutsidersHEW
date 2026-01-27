@@ -100,8 +100,7 @@ public:
 	}
 
 	const std::list<GameObject*>& GetAllGameObjects() const { return m_GameObjects; }
-
-protected:
+public:
 	void SetTimeStopEnable(bool newActive) { m_TimeStopEnable = newActive; }
 
 protected:
