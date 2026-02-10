@@ -18,7 +18,6 @@ public:
 	}
 	virtual void Update()
 	{
-
 		// ステップ1：全オブジェクトの現在位置を保存（ロールバック用）
 		for (auto& gameObject : m_GameObjects)
 		{
@@ -95,4 +94,7 @@ public:
 protected:
 	std::list<GameObject*> m_GameObjects;
 	class Camera* m_CurrentCamera{};
+
+
+	
 };

@@ -22,7 +22,9 @@ private:
 	Vector3 m_Velocity = { 0,0,0 };
 	int m_AttackPower = 1;
 	float m_Lifetime = 2.0f;
-	MODEL* m_model;
+	
 	std::chrono::steady_clock::time_point m_old;
 
+protected:
+	MODEL* m_Model;
 };

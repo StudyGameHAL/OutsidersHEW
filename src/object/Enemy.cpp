@@ -1,10 +1,13 @@
 #include "object/Enemy.h"
 #include "render/DirectX.h"
 #include "scene/Scene.h"
-#include "../render/Shader.h"
+#include "render/Shader.h"
 #include "object/Camera.h"
 #include "object/Player.h"
+
 #include "object/Projectile.h"
+#include "object/NormalCard.h"
+
 #include "core/debug_ostream.h"
 
 void Enemy::Initialize()
@@ -12,7 +15,7 @@ void Enemy::Initialize()
 	m_Model = ModelLoad("asset/model/BUG1.fbx");
 	
 	// ===== Capsuleコライダーを追加 =====
-	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f }, XMFLOAT3{0, 1, 0}, 0.8f);
+	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f }, DirectX::XMFLOAT3{0, 1, 0}, 0.8f);
 	AddCollider(std::move(collider));
 }
 
@@ -27,17 +30,32 @@ void Enemy::Update()
 	Scene* scene = GetScene();
 	ApplyRotationToPlayer();
 	// アタックカウントを加算
-	m_AttackCount++;
+	m_AttackFrameCount++;
 
 	// アタックするカウントになったとき
-	if (m_AttackCount > m_CountToAttack)
+	if (m_AttackFrameCount > m_FrameToAttack)
 	{
-		m_AttackCount = 0;
-		// シーンにゲームオブジェクトを追加
-		Projectile* projectile = scene->AddGameObject<Projectile>();
+		m_AttackFrameCount = 0;
+		static bool normalCard = false;
+		
+		if (normalCard)
+		{
+			// シーンにゲームオブジェクトを追加
+			Projectile* projectile = scene->AddGameObject<NormalCard>();
 
-		// プロジェクタイルに力を加える
-		projectile->SetVelocity(m_Transform.GetForwardVector() * 2.0f);
+			// プロジェクタイルに力を加える
+			projectile->SetVelocity(m_Transform.GetForwardVector() * 2.0f);
+		}
+		else
+		{
+			// シーンにゲームオブジェクトを追加
+			Projectile* projectile = scene->AddGameObject<Projectile>();
+
+			// プロジェクタイルに力を加える
+			projectile->SetVelocity(m_Transform.GetForwardVector() * 2.0f);
+		}
+
+		normalCard = !normalCard;
 	}
 
 	// ===== TransformをColliderに同期 =====
@@ -60,7 +78,7 @@ void Enemy::Draw()
 	// model adjustments
 	matrix.world *= XMMatrixRotationX(-Math::HALF_PI);
 	matrix.world *= XMMatrixRotationY(-Math::HALF_PI * 1.0f);
-	matrix.world *= XMMatrixScaling(0.7f, 0.7f, 0.7f);
+	matrix.world *= XMMatrixScaling(0.3f, 0.3f, 0.3f);
 	// model adjustments end
 
 	matrix.world *= m_Transform.GetMatrix();

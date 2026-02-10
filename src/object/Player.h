@@ -14,6 +14,7 @@ enum class PlayerState
 
 class Player : public GameObject
 {
+
 private:
 
 	PlayerState currentState = PlayerState::IDLE;
@@ -50,7 +51,7 @@ public:
 	void SetHealth(int _health) noexcept { health = _health; };
 
 	float GetJumpPower() const noexcept { return jumpPower; };
-	void SetJumoPower(float _jumpPower) noexcept { jumpPower = _jumpPower; };
+	void SetJumpPower(float _jumpPower) noexcept { jumpPower = _jumpPower; };
 
 	Vector3 GetVelocity() const noexcept { return velocity; };
 	void SetVelocity(Vector3 _velocity) noexcept { velocity = _velocity; };

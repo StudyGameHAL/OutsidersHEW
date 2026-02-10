@@ -17,7 +17,7 @@ void Projectile::Initialize()
 {
 	m_Lifetime = 2.0f;
 	m_old = std::chrono::steady_clock::now();
-	m_model = ModelLoad("asset/model/ball.fbx");
+	m_Model = ModelLoad("asset/model/ball.fbx");
 
 }
 
@@ -51,7 +51,7 @@ void Projectile::Draw()
 	matrix.view = camera->GetViewMatrix();
 	matrix.world = m_Transform.GetMatrix();
 	SHADER.setMatrix(matrix);
-	ModelDraw(m_model);
+	ModelDraw(m_Model);
 }
 
 void Projectile::SetVelocity(const Vector3& vel)

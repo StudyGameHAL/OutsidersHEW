@@ -1,9 +1,11 @@
 ﻿#include "object/Player.h"
-#include "../core/Keyboard.h"
-#include "../render/model.h"
-#include "../render/Shader.h"
+#include "core/Keyboard.h"
+#include "render/model.h"
+#include "render/Shader.h"
 #include "object/Camera.h"
-#include "Enemy.h"
+#include "object/Enemy.h"
+#include "object/NormalCard.h"
+#include "scene/Scene.h"
 
 #define PI			(3.14159265359)
 #define TWO_PI		(2 * PI)
@@ -128,7 +130,6 @@ void Player::Update()
 
 	// ===== 基底クラスの衝突検出を呼び出し =====
 	CheckCollisions();
-
 }
 
 void Player::Draw()
@@ -172,6 +173,13 @@ bool Player::OnCollision(GameObject* other, ColliderBase* myCollider,
 		else
 			health -= 10;
 		printf("Player hit by Enemy!\n");
+		return true;  // ロールバックしない、敵との重なりを許可
+	}
+	// ノーマルカードに接触：カードの能力を取得、ロールバックしない（重なりを許可）
+	else if (auto* card = dynamic_cast<NormalCard*>(other))
+	{
+		card->SetDeleted(true);  // カードを消す
+		printf("Player hit by Card!\n");
 		return true;  // ロールバックしない、敵との重なりを許可
 	}
 
