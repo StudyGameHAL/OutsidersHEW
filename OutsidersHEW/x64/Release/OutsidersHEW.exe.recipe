@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\x64\Release\OutsidersHEW.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\shaderPixel3D.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\shaderVertex3D.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
