@@ -1,11 +1,13 @@
 ﻿#include "object/Player.h"
+#include <random>
 #include "core/Keyboard.h"
 #include "render/model.h"
 #include "render/Shader.h"
 #include "object/Camera.h"
 #include "object/Enemy.h"
-#include "object/NormalCard.h"
 #include "scene/Scene.h"
+#include "object/NormalCard.h"
+#include "DustEffect.h"
 
 #define PI			(3.14159265359)
 #define TWO_PI		(2 * PI)
@@ -46,6 +48,7 @@ void Player::HandleInput()
 
 void Player::Update()
 {
+	static unsigned int dustEffectCount = 0;
 	if (health <= 0)
 	{
 		SetDeleted(true);
@@ -58,11 +61,36 @@ void Player::Update()
 
 	float deltaTime = 0.016f;
 
+	Scene* scene = GetScene();
 
 	if (inputVelocity.x != 0.0f || inputVelocity.z != 0.0f)
 	{
 		if (currentState == PlayerState::MOVING)
 		{
+			dustEffectCount++;
+			if (dustEffectCount > 5)
+			{
+				dustEffectCount = 0;
+
+				static std::mt19937 gen(std::random_device{}());
+				static std::uniform_real_distribution<float> vertical_dist(0.0f, 0.2f);
+				static std::uniform_real_distribution<float> horizontal_dist(-0.1f, 0.1f);
+				float horizontalRandom = horizontal_dist(gen);
+				float verticalRandom = vertical_dist(gen);
+				Vector3 rightVector = m_Transform.GetRightVector() * horizontalRandom;
+
+				float verticalDistance = -0.10f + verticalRandom;
+				Vector3 offset = inputVelocity * verticalDistance + rightVector;
+
+				Vector3 spawnPos = GetTransform().GetPosition();
+				spawnPos = spawnPos + offset;
+
+				DustEffect* dustEffect = scene->AddGameObject<DustEffect>();
+				dustEffect->GetTransform().SetPosition(spawnPos);
+				dustEffect->SetInitialScale({ 0.1f, 0.1f, 0.1f });
+				dustEffect->SetMaximumScale({ 0.35f, 0.35f, 0.35f });
+			}
+
 
 			float inputRotation = atan2f(-inputVelocity.x, -inputVelocity.z);
 
@@ -153,7 +181,7 @@ void Player::Draw()
 
 void Player::Initialize()
 {
-	currentModel = ModelLoad("asset/model/player.fbx");
+	currentModel = ModelLoad("asset/model/Player.fbx");
 	this->GetTransform().SetPosition({ 0.0f, 0.0f, -2.0f });
 	// ===== Capsuleコライダーを追加 =====
 	auto collider = MakeCapsuleCollider(DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f }, XMFLOAT3{ 0,1,0 }, 1.0f);

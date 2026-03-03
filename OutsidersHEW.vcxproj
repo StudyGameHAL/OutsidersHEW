@@ -145,6 +145,7 @@
     <ClCompile Include="src\object\Camera.cpp" />
     <ClCompile Include="src\object\Card.cpp" />
     <ClCompile Include="src\object\CardSpawner.cpp" />
+    <ClCompile Include="src\object\DustEffect.cpp" />
     <ClCompile Include="src\object\Enemy.cpp" />
     <ClCompile Include="src\object\Field.cpp" />
     <ClCompile Include="src\object\GameObject.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="src\core\debug_ostream.h" />
     <ClInclude Include="src\object\Card.h" />
     <ClInclude Include="src\object\CardSpawner.h" />
+    <ClInclude Include="src\object\DustEffect.h" />
     <ClInclude Include="src\object\NormalCard.h" />
     <ClInclude Include="src\object\Projectile.h" />
     <ClInclude Include="src\object\Enemy.h" />

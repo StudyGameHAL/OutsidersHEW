@@ -1,54 +1,6 @@
-﻿  compilation object save succeeded; see C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\shaderPixel3D.cso
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\shaderVertex3D.hlsl(24,16-53): warning X3206: implicit truncation of vector type
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\shaderVertex3D.hlsl(28,9-60): warning X3206: implicit truncation of vector type
-  
-  compilation object save succeeded; see C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\shaderVertex3D.cso
-  debug_ostream.cpp
-  Camera.cpp
-  Card.cpp
+﻿  DustEffect.cpp
 C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8): warning C4099: 'MODEL': type name first seen using 'class' now seen using 'struct'
-  (compiling source file 'src/object/Card.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\CardSpawner.h(5,7): warning C4099: 'MODEL': type name first seen using 'struct' now seen using 'class'
-  (compiling source file 'src/object/Card.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-  CardSpawner.cpp
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8): warning C4099: 'MODEL': type name first seen using 'class' now seen using 'struct'
-  (compiling source file 'src/object/CardSpawner.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Card.h(5,7): warning C4099: 'MODEL': type name first seen using 'struct' now seen using 'class'
-  (compiling source file 'src/object/CardSpawner.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-  Enemy.cpp
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8): warning C4099: 'MODEL': type name first seen using 'class' now seen using 'struct'
-  (compiling source file 'src/object/Enemy.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Projectile.h(6,7): warning C4099: 'MODEL': type name first seen using 'struct' now seen using 'class'
-  (compiling source file 'src/object/Enemy.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-  Field.cpp
-  GameObject.cpp
-  NormalCard.cpp
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8): warning C4099: 'MODEL': type name first seen using 'class' now seen using 'struct'
-  (compiling source file 'src/object/NormalCard.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-  Projectile.cpp
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8): warning C4099: 'MODEL': type name first seen using 'class' now seen using 'struct'
-  (compiling source file 'src/object/Projectile.cpp')
+  (compiling source file 'src/object/DustEffect.cpp')
       C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
       see declaration of 'MODEL'
   
@@ -63,63 +15,22 @@ C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Projectile.h(6,
       C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
       see declaration of 'MODEL'
   
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(72,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(76,18): warning C4305: '-=': truncation from 'double' to 'float'
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(80,18): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(85,22): warning C4305: '-=': truncation from 'double' to 'float'
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(87,22): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(107,63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(108,63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  Collider.cpp
-  Colliders_Impl.cpp
-  DirectX.cpp
-  Game.cpp
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8): warning C4099: 'MODEL': type name first seen using 'class' now seen using 'struct'
-  (compiling source file 'src/Game.cpp')
+C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\DustEffect.h(6,7): warning C4099: 'MODEL': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'src/object/Player.cpp')
       C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
       see declaration of 'MODEL'
   
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Enemy.h(4,7): warning C4099: 'MODEL': type name first seen using 'struct' now seen using 'class'
-  (compiling source file 'src/Game.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\CardSpawner.h(5,7): warning C4099: 'MODEL': type name first seen using 'struct' now seen using 'class'
-  (compiling source file 'src/Game.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-  Keyboard.cpp
-  main.cpp
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\main.cpp(145,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  model.cpp
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.cpp(91,19): warning C4018: '<': signed/unsigned mismatch
-  Shader.cpp
-  TestObject.cpp
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8): warning C4099: 'MODEL': type name first seen using 'class' now seen using 'struct'
-  (compiling source file 'src/object/TestObject.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-  SceneGame.cpp
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8): warning C4099: 'MODEL': type name first seen using 'class' now seen using 'struct'
-  (compiling source file 'src/scene/SceneGame.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Enemy.h(4,7): warning C4099: 'MODEL': type name first seen using 'struct' now seen using 'class'
-  (compiling source file 'src/scene/SceneGame.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
-C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\CardSpawner.h(5,7): warning C4099: 'MODEL': type name first seen using 'struct' now seen using 'class'
-  (compiling source file 'src/scene/SceneGame.cpp')
-      C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\render\model.h(11,8):
-      see declaration of 'MODEL'
-  
+C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(100,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(104,18): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(108,18): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(113,22): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(115,22): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(135,63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\src\object\Player.cpp(136,63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   Generating code
-  Previous IPDB not found, fall back to full compilation.
-  All 1199 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  1 of 1232 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 DirectXTex_Release.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB 'DirectXTex.pdb' was not found with 'DirectXTex_Release.lib(DirectXTexD3D11.obj)' or at 'C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\x64\Release\DirectXTex.pdb'; linking object as if no debug info
 DirectXTex_Release.lib(DirectXTexWIC.obj) : warning LNK4099: PDB 'DirectXTex.pdb' was not found with 'DirectXTex_Release.lib(DirectXTexWIC.obj)' or at 'C:\Users\towak\source\repos\StudyGameHAL\OutsidersHEW\x64\Release\DirectXTex.pdb'; linking object as if no debug info
